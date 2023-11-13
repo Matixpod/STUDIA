@@ -4,5 +4,5 @@ print("dupa maka sraka")
 
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
-
+print('lol')
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
