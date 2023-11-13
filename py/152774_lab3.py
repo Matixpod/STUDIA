@@ -4,6 +4,5 @@ print("dupa maka sraka")
 
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
-print('adhasfshfshfjknfksgnkjsngosuohsfs')
-print('adhasfshfshfjknfksgnkjsngosuohsfs')
+
 print('adhasfshfshfjknfksgnkjsngosuohsfs')
