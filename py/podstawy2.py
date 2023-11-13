@@ -89,7 +89,6 @@ def zadanie5(n):
 
 
 # ZADANIE 6
-
 def zadanie6(text):
     arr = []
     for i,val in enumerate(text):
@@ -113,7 +112,6 @@ def zadanie7():
 
 
 # ZADANIE 8
-
 def zadanie8():
     arr = [random.randrange(-10,10) for i in range(20)]
     arr = sum([i**2 if i < 0 else 0 for i in arr])
@@ -124,7 +122,6 @@ def zadanie8():
 
 
 # ZADANIE 9
-
 def zadanie9(x):
     if type(x) == int:
         return x**2
@@ -136,7 +133,6 @@ def zadanie9(x):
 
 
 # ZADANIE 10
-
 def zadanie10(x):
     return "".join([chr(i) for i in x])
 
@@ -144,7 +140,6 @@ def zadanie10(x):
 
 
 # ZADANIE 11
-
 def zadanie11(arr1, arr2):
     print(set(arr1 + arr2))
     set1 = {i for i in arr1}
@@ -155,8 +150,8 @@ def zadanie11(arr1, arr2):
 
 # zadanie11([random.randrange(11) for i in range(11)],[random.randrange(11) for i in range(11)])
 
-# ZADANIE 12
 
+# ZADANIE 12
 def zadanie12():
     słownik = {
         'banana' : 'banan',
