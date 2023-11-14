@@ -44,7 +44,11 @@ def zadanie2(a,b = 0):
         return f"Rozwiązanie równania liniowego: {x}"
     
 
+# print(zadanie2(1,))
 # print(zadanie2(0,2))
+# print(zadanie2(a=2))
+# print(zadanie2(a=0,b=2))
+# print(zadanie2(b=2,a=0))
 
 # ZADANIE 3
 def zadanie3(list1):
@@ -66,7 +70,7 @@ def zadanie3(list1):
         
 
 # print(zadanie3([random.randrange(10) for i in range(0,10)]))
-
+print(zadanie3([1,2,1,2]))
 
 # ZADANIE 4
 def zadanie4(a = 0,b = 10,n = 10):
