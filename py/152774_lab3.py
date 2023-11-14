@@ -49,21 +49,42 @@ def zadanie5(a,b,c):
         x1 = (-b - math.sqrt(delta)) / (2*a)
         x2 = (-b + math.sqrt(delta)) / (2*a)
         if x1 != x2:
-            return x1, x2
+            return f"Podane liczby: a = {a}, b = {b}, c = {c} \nx1 = {x1} \nx2 = {x2}\n"
         else:
-            return x1
+            return f"Podane liczby: a = {a}, b = {b}, c = {c} \nx1 = {x1}\n"
     except ValueError:
-        print("Delta mniejsza od zera brak rozwiązań")
+        return f"Podane liczby: a = {a}, b = {b}, c = {c} \nDelta mniejsza od zera brak rozwiązań\n"
 
-zadanie5(4,4,1)
+# zadanie5(4,4,1)
 
 def zadanie5b():
-    data = input("Podaj wartosci po spacjach lub w osobnych wierszach: ")
-    data = data.split()
-    while data != []:
-        print(data)
-        
+    check = True
+    arr = []
+    while len(arr) < 3:
+        data = input("Podaj wartosci po spacjach lub w osobnych wierszach: ").split()
+        if data == []:
+            check = False
+            break
+        for i in data:
+            arr.append(int(i))
 
+    if check == True:
+        print(zadanie5(arr[0],arr[1],arr[2]))
+        zadanie5b()
+
+
+# zadanie5b()
+
+def zadanie6(n):
+    arr = [i for i in range(1,n)]
+    for i,val in enumerate(arr):
+        for j in range(i+1,n):
+            if arr[j] % val == 0:
+                del arr[j]
+    print(arr)
+                
+        
+zadanie6(10)
 
 
 
