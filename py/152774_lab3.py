@@ -1,14 +1,19 @@
-import random
-import collections
 import itertools
 import math
+import random
+import collections
+
+# %%
 
 def zadanie1():
+
+
     arr = [random.randrange(11) for i in range(51)]
     dict = collections.Counter(arr)    
     return dict.most_common(5)
 
-# print(zadanie1())
+print(zadanie1())
+# %%
 
 def zadanie2(text):
     error = itertools.permutations(text,2)
@@ -18,7 +23,8 @@ def zadanie2(text):
     print("Kombinacje:", " ". join(i[0]+i[1] for i in list(test2)))
 
 
-# zadanie2("ABCD")
+zadanie2("ABCD")
+#  %%
 
 def zadanie3(a,b):
     arr = []
@@ -41,6 +47,7 @@ zadanie3([[1, 2, 3],[4, 5, 6],[7, 8, 9]],[6, 4, 2])
 
 # def zadanie4():
 
+# %%
 
 def zadanie5(a,b,c):
     delta = b**2 - 4 * a * c
@@ -73,28 +80,47 @@ def zadanie5b():
         zadanie5b()
 
 
-# zadanie5b()
+zadanie5b()
+# %%
 
 def zadanie6(n):
-    arr = [i for i in range(1,n)]
+    arr = arr = list(range(2, n))
     for i,val in enumerate(arr):
-        for j in range(i+1,n):
-            if arr[j] % val == 0:
-                del arr[j]
-    print(arr)
+        if val != 0:
+            for j in range(i+1,n-2):
+                if arr[j] % val == 0:
+                    arr[j] = 0
+    arr = [i for i in arr if i != 0 ]
+    return arr
                 
         
-zadanie6(10)
+# print(zadanie6(100))
 
 
+def zadanie6b():
+    with open('G:/Users/mateu/Pulpit/Github/STUDIA/pliki_do_zadan/prime_numbers.txt','w') as file:
+        arr = zadanie6(100) 
+        counter = 0
+        for number in arr:
+            if counter == 5:
+                file.write(f"\n{str(number)} ")
+                counter = 1
+            else:
+                file.write(f"{str(number)} ")
+                counter += 1
 
 
+# zadanie6b()
 
+# %%
+def zadanie7(n):
+    i = 0
+    a,b = 0,1
+    while i < n:
+        yield a
+        a,b = b, a + b
+        i += 1
 
-
-
-
-
-
+print(list(zadanie7(12)))
 
 
