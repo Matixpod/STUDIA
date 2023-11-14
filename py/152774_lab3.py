@@ -6,8 +6,6 @@ import collections
 # %%
 
 def zadanie1():
-
-
     arr = [random.randrange(11) for i in range(51)]
     dict = collections.Counter(arr)    
     return dict.most_common(5)
