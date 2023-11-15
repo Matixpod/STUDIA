@@ -6,8 +6,8 @@ import collections
 # %%
 
 def zadanie1():
-    arr = [random.randrange(11) for i in range(51)]
-    dict = collections.Counter(arr)    
+    arr = [random.randrange(11) for _ in range(51)]
+    dict = collections.Counter(arr)
     return dict.most_common(5)
 
 print(zadanie1())
@@ -82,17 +82,14 @@ zadanie5b()
 # %%
 
 def zadanie6(n):
-    arr = arr = list(range(2, n))
-    for i,val in enumerate(arr):
+    arr = list(range(2, n))
+    for val in arr:
         if val != 0:
-            for j in range(i+1,n-2):
-                if arr[j] % val == 0:
-                    arr[j] = 0
-    arr = [i for i in arr if i != 0 ]
-    return arr
-                
-        
-# print(zadanie6(100))
+            for j in range(val * val-2, n-2, val):
+                arr[j] = 0
+    return [i for i in arr if i != 0 ]
+       
+print(zadanie6(1000000))
 
 
 def zadanie6b():
@@ -120,5 +117,7 @@ def zadanie7(n):
         i += 1
 
 print(list(zadanie7(12)))
+
+
 
 
