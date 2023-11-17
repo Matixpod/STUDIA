@@ -1,0 +1,26 @@
+import random
+
+# %%
+
+def zadanie1(arr):
+    max_num = arr[0]
+    for num in arr:
+        if num > max_num:
+            max_num = num
+    return max_num
+
+print(zadanie1([random.randrange(100) for _ in range(10)]))
+
+# %% 
+
+def zadanie2(arr):
+    for i in range(1,len(arr)):
+        x = 0
+        while arr[i-1-x] > arr[i - x] and i - x != 0:
+            arr[i-1-x],arr[i-x] = arr[i-x],arr[i-x-1]
+            x+=1
+    return arr
+
+
+
+print(zadanie2([random.randrange(100) for _ in range(10)]))
