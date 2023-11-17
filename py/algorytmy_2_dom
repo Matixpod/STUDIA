@@ -1,7 +1,5 @@
 import random
-
 # %%
-
 def zadanie1(arr):
     max_num = arr[0]
     for num in arr:
@@ -35,7 +33,6 @@ def zadanie3(s1,s2):
 
 zadanie3('ala ma kota', 'aoiuye')
 # Złożoność obliczeniowa tego algorytmu to O(n*m) ponieważ mamy 2 pętle o różnych długościach które są zagnieżdżone w sobie co oznacza że w najgorszym przypadku petla wykona sie w dlugość 1 ciagu znaków * 2 ciągu znaków
-
 # %%
 
 def zadanie4(arr):
