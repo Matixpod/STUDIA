@@ -189,7 +189,8 @@ def zadanie14():
     print(text)
 
 
-# zadanie14()
+zadanie14()
+
 
 # ZADANIE 15
 def zadanie15(n):
@@ -236,7 +237,7 @@ def zadanie17():
             print(i , word)
 
 
-# zadanie17()
+zadanie17()
 
 
 # ZADANIE 18
@@ -270,7 +271,7 @@ def zadanie19():
     print(result)
 
 
-# zadanie19()
+zadanie19()
 
 
 # ZADANIE 20

@@ -120,7 +120,7 @@ def zadanie4(n,left,middle,right):
     zadanie4(n-1,middle,left,right)
 
 
-zadanie4(3,'A','B','C')
+zadanie4(5,'A','B','C')
 
 
 
