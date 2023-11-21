@@ -23,12 +23,11 @@ import random
 # for i,val in enumerate(l4):
 #     print(i,val)
 
-
 # ZADANIE 1
 def zadanie1(x):
     return x**3 - 3*x**2 + 8*x - 2
 
-# print(zadanie1(10))
+print(zadanie1(10))
 
 
 # ZADANIE 2
@@ -44,11 +43,11 @@ def zadanie2(a,b = 0):
         return f"Rozwiązanie równania liniowego: {x}"
     
 
-# print(zadanie2(1,))
-# print(zadanie2(0,2))
-# print(zadanie2(a=2))
-# print(zadanie2(a=0,b=2))
-# print(zadanie2(b=2,a=0))
+print(zadanie2(1,))
+print(zadanie2(0,2))
+print(zadanie2(a=2))
+print(zadanie2(a=0,b=2))
+print(zadanie2(b=2,a=0))
 
 # ZADANIE 3
 def zadanie3(list1):
@@ -69,27 +68,27 @@ def zadanie3(list1):
     return list3
         
 
-# print(zadanie3([random.randrange(10) for i in range(0,10)]))
+print(zadanie3([random.randrange(10) for _ in range(0,10)]))
 print(zadanie3([1,2,1,2]))
 
 # ZADANIE 4
 def zadanie4(a = 0,b = 10,n = 10):
-    return [random.randrange(a,b+1) for i in range(n)]
+    return [random.randrange(a,b+1) for _ in range(n)]
 
-# print(zadanie4(0,100,100))
+print(zadanie4(0,100,100))
 
 # ZADANIE 5
 def zadanie5(n):
-    arr = [random.randrange(0,10) for i in range(n)]
+    arr = [random.randrange(0,10) for _ in range(n)]
     print(arr)
     print(min(arr))
     print(arr.index(max(arr)))
     print(sum(arr))
-    print(arr.sorted())
+    print(sorted(arr))
     print(arr.count(3))
     print(set(arr))
     
-# zadanie5(10)
+zadanie5(10)
 
 
 # ZADANIE 6
@@ -101,7 +100,7 @@ def zadanie6(text):
     return arr
 
 
-# print(zadanie6("ABCD"))
+print(zadanie6("ABCD"))
 
 # ZADANIE 7
 def zadanie7():
@@ -112,16 +111,16 @@ def zadanie7():
     arr3 = [i**3 if i % 3 == 0 else i**2 for i in range(11)]
     print(arr3)
 
-# zadanie7()
+zadanie7()
 
 
 # ZADANIE 8
 def zadanie8():
-    arr = [random.randrange(-10,10) for i in range(20)]
+    arr = [random.randrange(-10,11) for _ in range(20)]
     arr = sum([i**2 if i < 0 else 0 for i in arr])
     return arr
 
-# zadanie8()
+zadanie8()
 
 
 
@@ -133,14 +132,14 @@ def zadanie9(x):
         arr = [i**2 for i in x]
         return arr
     
-# print(zadanie9([2,4,5,43,4]))
+print(zadanie9([2,4,5,43,4]))
 
 
 # ZADANIE 10
 def zadanie10(x):
     return "".join([chr(i) for i in x])
 
-# print(zadanie10([random.randrange(97,123) for i in range(11)]))
+print(zadanie10([random.randrange(97,123) for i in range(11)]))
 
 
 # ZADANIE 11
@@ -152,7 +151,7 @@ def zadanie11(arr1, arr2):
     print(set1.difference(set2))
 
 
-# zadanie11([random.randrange(11) for i in range(11)],[random.randrange(11) for i in range(11)])
+zadanie11([random.randrange(11) for i in range(11)],[random.randrange(11) for i in range(11)])
 
 
 # ZADANIE 12
@@ -175,9 +174,8 @@ def zadanie12():
                 słownik[translate] = translated
         translate = input("Wprowadź słowo")
         
-        
-
-# zadanie12() 
+    
+zadanie12() 
 
 
 
