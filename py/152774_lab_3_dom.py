@@ -32,14 +32,12 @@ def zadanie3(a):
     return a[0][0] * a[1][1] - a[1][0] * a[0][1]
 
 
-zadanie3([[1,2]])
+zadanie3([[1,2],[1,2]])
 # %%
-
-
 
 def zadanie4(x,y):
     arr = []
-    with open('C:/Users/Jakub/Desktop/Github/STUDIA/pliki_do_zadan\wsb_pliki\points.txt') as file:
+    with open('..\pliki_do_zadan\wsb_pliki\points.txt') as file:
         for data in file:
             data = [float(i) for i in data.split()]
             distance = math.dist([x,y],data)
@@ -62,8 +60,8 @@ def zadanie5(a,b,c):
 
 
 def zadanie5b():
-    with open('G:/Users/mateu/Pulpit/Github/STUDIA/pliki_do_zadan/equations.txt','r') as file:
-        with open('G:/Users/mateu/Pulpit/Github/STUDIA/pliki_do_zadan/equations_results.txt','w') as file2:
+    with open('..\pliki_do_zadan\wsb_pliki\equations.txt','r') as file:
+        with open('..\pliki_do_zadan\wsb_pliki\equations_results.txt','w') as file2:
             for i in file:
                 nums = i.split()
                 file2.write(zadanie5(int(nums[0]),int(nums[1]),int(nums[2])))
@@ -111,7 +109,12 @@ print(list(zadanie7(13)))
 
 
 def zadanie8():
-    with open('C:/Users/Jakub/Desktop/Github/STUDIA/pliki_do_zadan\wsb_pliki\cars.csv',encoding="utf8") as file:
+    with open('..\pliki_do_zadan\wsb_pliki\cars.csv',encoding="utf8") as file:
         data = [tuple(line.strip().split(',')) for line in file]
-        print(data)
+        data.sort(key=lambda x: x[3])
+        print(f'Dane o samochodach od najtańszych: \n{data}')
+        print(f'Dane o najtańszym samochodzie: \n{data[0]}')
+        data.sort(key=lambda x: x[2],reverse=True)
+        print(f'Dane o samochodach od najnowszych: \n{data}')
+        
 zadanie8()
