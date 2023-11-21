@@ -36,6 +36,20 @@ zadanie3([[1,2]])
 # %%
 
 
+
+def zadanie4(x,y):
+    arr = []
+    with open('C:/Users/Jakub/Desktop/Github/STUDIA/pliki_do_zadan\wsb_pliki\points.txt') as file:
+        for data in file:
+            data = [float(i) for i in data.split()]
+            distance = math.dist([x,y],data)
+            arr.append((distance,data))
+        arr.sort()
+        return [i for _,i in arr[:10]]
+
+zadanie4(1,2)
+
+# %%
 def zadanie5(a,b,c):
     delta = b**2 - 4 * a * c
 
@@ -80,3 +94,24 @@ def zadanie6b(n=30):
         print(f'Liczba {i} {zadanie6(i)}')
 
 zadanie6b()
+# %%
+
+
+
+def zadanie7(n):    
+    yield n
+    while n != 1:
+        n = n // 2 if n % 2 == 0 else 3 * n + 1
+        yield n
+    
+
+
+print(list(zadanie7(13)))
+# %%
+
+
+def zadanie8():
+    with open('C:/Users/Jakub/Desktop/Github/STUDIA/pliki_do_zadan\wsb_pliki\cars.csv',encoding="utf8") as file:
+        data = [tuple(line.strip().split(',')) for line in file]
+        print(data)
+zadanie8()
