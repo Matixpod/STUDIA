@@ -1,10 +1,10 @@
 # %%
-import collections
-import math
 import random
+from collections import deque
+import math
 # %%
 def zadanie1(napis):
-    s = collections.deque()
+    s = deque()
     for sym in napis:
         print(s)
         if sym == "(":
@@ -27,7 +27,7 @@ zadanie1('((2 + 5) * (2 + 3)) / 2')
 
 
 def zadanie2(napis):
-    s = collections.deque()
+    s = deque()
     napis = napis.split()
     for sym in napis:
         try:
@@ -55,10 +55,33 @@ zadanie2('2 7 + 3 / 14 3 - 4 * + 2 /')
 
 
 def zadanie3(processes, n, p, max_time):
-    print(processes[0])
+    completed_processes = []
+    remaining_processes = []
+    processes_queue = deque(processes)
+    time = 0
 
+    while time < max_time:
+        print(processes_queue)
+        process, duration = processes_queue.popleft()
+        while duration and time < max_time:
+            if duration > n:
+                duration -= n
+            else:
+                duration = 0
 
+            if duration == 0:
+                completed_processes.append(process)
+            else:
+                processes_queue.append((process,duration))
 
+        time += n
+    
+    print(processes_queue)
+
+    # for process,duration in processes_queue:
+    #     remaining_processes.append(process)
+
+    # return remaining_processes,completed_processes
 
 processes = [
         ('git status', 25),
@@ -67,12 +90,11 @@ processes = [
         ('screenshot', 105)
         ]
 
-zadanie3(processes, n=4, p=0.2, max_time=1000)
+print(zadanie3(processes, n=4, p=0.2, max_time=1000))
 
 # %%
 
-import random
-from collections import deque
+
 
 def scheduler(processes, n, p, max_time):
     completed_processes = []
