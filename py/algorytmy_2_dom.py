@@ -43,6 +43,6 @@ def zadanie4(arr):
         return (arr[mid - 1] + arr[mid]) / 2
     else:
         return arr[mid]
-
+    
 print(zadanie4([1,2,3,4,5,6,7,8,9,10]))
 # Złożoność tego algorytmu to O(1) ponieważ funkcja zawsze sprawdza tylko 2 środkowe elementy listy
