@@ -1,3 +1,4 @@
+# %%
 import random
 # %%
 def zadanie1(arr):

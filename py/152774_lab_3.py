@@ -1,123 +1,124 @@
+# %%
 import itertools
 import math
 import random
 import collections
-
 # %%
 
+# ZADANIE 1
 def zadanie1():
     arr = [random.randrange(11) for _ in range(51)]
-    dict = collections.Counter(arr)
-    return dict.most_common(5)
+    dictionary = collections.Counter(arr)
+    return [i for i,_ in dictionary.most_common(5)]
 
 print(zadanie1())
-# %%
 
+# %% 
+
+# ZADANIE 2
 def zadanie2(text):
-    error = itertools.permutations(text,2)
-    test2 = itertools.combinations(text,2)
+    error = itertools.permutations(text,3)
+    test2 = itertools.combinations(text,3)
     print(f"Napis pobrany od użytkownika: {text}")
-    print("Permutacje:", " ". join(i[0]+i[1] for i in list(error)))
-    print("Kombinacje:", " ". join(i[0]+i[1] for i in list(test2)))
+    print("Permutacje:", " ". join(i[0]+i[1]+i[2] for i in list(error)))
+    print("Kombinacje:", " ". join(i[0]+i[1]+i[2] for i in list(test2)))
 
-
-zadanie2("ABCD")
-#  %%
-
-def zadanie3(a,b):
-    arr = []
-    sum = 0
-
-    try:
-        for i in range(len(a)):
-            for i,val in enumerate(a[i]):
-                sum += val * b[i]
-            arr.append(sum)
-            sum = 0
-        return arr
-    except TypeError as error:
-        return "Błąd typu danych, podana macierz zamiast wektora:\n", error
-
-
-zadanie3([[1, 2, 3],[4, 5, 6],[7, 8, 9]],[6, 4, 2])
-
-
-
-# def zadanie4():
-
+zadanie2("ABC")
 # %%
 
+# ZADANIE 3
+def zadanie3(a):
+    if len(a) != 2:
+        raise ValueError('Wprowadzona macierz o złym wymiarze! \nWprowadź macierz o wymiarze 2x2.')
+    return a[0][0] * a[1][1] - a[1][0] * a[0][1]
+
+
+print(zadanie3([[1,2],[3,4]]))
+# %%
+
+# ZADANIE 4
+def zadanie4(x,y):
+    arr = []
+    with open('..\pliki_do_zadan\wsb_pliki\points.txt') as file:
+        for data in file:
+            data = [float(i) for i in data.split()]
+            distance = math.dist([x,y],data)
+            arr.append((distance,data))
+        arr.sort()
+        return [i for _,i in arr[:10]]
+
+zadanie4(1,2)
+
+# %%
+# ZADANIE 5
 def zadanie5(a,b,c):
     delta = b**2 - 4 * a * c
 
     try:
         x1 = (-b - math.sqrt(delta)) / (2*a)
         x2 = (-b + math.sqrt(delta)) / (2*a)
-        if x1 != x2:
-            return f"Podane liczby: a = {a}, b = {b}, c = {c} \nx1 = {x1} \nx2 = {x2}\n"
-        else:
-            return f"Podane liczby: a = {a}, b = {b}, c = {c} \nx1 = {x1}\n"
+        return f"{x1} {x2}\n" if x1 != x2 else f"{x1}\n"
     except ValueError:
-        return f"Podane liczby: a = {a}, b = {b}, c = {c} \nDelta mniejsza od zera brak rozwiązań\n"
+        return f"\n"
 
-# zadanie5(4,4,1)
 
 def zadanie5b():
-    check = True
-    arr = []
-    while len(arr) < 3:
-        data = input("Podaj wartosci po spacjach lub w osobnych wierszach: ").split()
-        if data == []:
-            check = False
-            break
-        for i in data:
-            arr.append(int(i))
-
-    if check == True:
-        print(zadanie5(arr[0],arr[1],arr[2]))
-        zadanie5b()
-
+    with open('..\pliki_do_zadan\wsb_pliki\equations.txt','r') as file:
+        with open('..\pliki_do_zadan\wsb_pliki\equations_results.txt','w') as file2:
+            for i in file:
+                nums = i.split()
+                file2.write(zadanie5(float(nums[0]),float(nums[1]),float(nums[2])))
 
 zadanie5b()
 # %%
-
+# ZADANIE 6
 def zadanie6(n):
-    arr = list(range(2, n))
-    for val in arr:
-        if val != 0:
-            for j in range(val * val-2, n-2, val):
-                arr[j] = 0
-    return [i for i in arr if i != 0 ]
-       
-print(zadanie6(1000000))
+    if n <= 1 or  (n != 2 and n % 2 == 0):
+        return 'nie jest liczba pierwsza'
+    else:
+        for i in range(int(math.sqrt(n)), 4, -2):
+            if n % i == 0:
+                return 'nie jest liczba pierwsza'
+    return 'jest liczba pierwsza'
 
 
-def zadanie6b():
-    with open('G:/Users/mateu/Pulpit/Github/STUDIA/pliki_do_zadan/prime_numbers.txt','w') as file:
-        arr = zadanie6(100) 
-        counter = 0
-        for number in arr:
-            if counter == 5:
-                file.write(f"\n{str(number)} ")
-                counter = 1
-            else:
-                file.write(f"{str(number)} ")
-                counter += 1
 
 
-# zadanie6b()
+def zadanie6b(n=30):
+    if n == 0:
+        arr = [0]
+    else:
+        arr = [0,1]
+        arr.extend(arr[i-1] + arr[i-2] for i in range(2, n + 1))
+    
+    for i in arr:
+        print(f'Liczba {i} {zadanie6(i)}')
 
+zadanie6b()
 # %%
-def zadanie7(n):
-    i = 0
-    a,b = 0,1
-    while i < n:
-        yield a
-        a,b = b, a + b
-        i += 1
-
-print(list(zadanie7(12)))
 
 
+# ZADANIE 7
+def zadanie7(n):    
+    yield n
+    while n != 1:
+        n = n // 2 if n % 2 == 0 else 3 * n + 1
+        yield n
+    
 
 
+print(list(zadanie7(13)))
+# %%
+
+# ZADANIE 8
+def zadanie8():
+    with open('..\pliki_do_zadan\wsb_pliki\cars.csv',encoding="utf8") as file:
+        data = [tuple(line.strip().split(',')) for line in file]
+        data.sort(key=lambda x: x[3])
+        print(f'Dane o samochodach, od najtańszych: \n{data}')
+        data.sort(key=lambda x: x[2],reverse=True)
+        print(f'Dane o samochodach, od najnowszych: \n{data}')
+        print(f'Dane o najtańszym samochodzie: \n{min(data,key=lambda x: x[3])}')
+
+        
+zadanie8()
