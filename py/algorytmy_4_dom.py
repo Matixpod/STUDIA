@@ -1,6 +1,6 @@
 # %%
 from collections import deque
-
+import random
 # %%
 
 def zadanie1(napis):
@@ -61,7 +61,8 @@ def zadanie2(arr):
     return stack_right
 
 
-zadanie2([9,5,2,1,9,6,3])
+zadanie2([9,5,2,1,9,6,3,10,2,3,23])
+# zadanie2([random.randrange(1000) for _ in range(100)])
 
 
 

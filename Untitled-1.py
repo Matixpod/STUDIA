@@ -3,6 +3,7 @@ class test(object):
         self.x = x
         self.y = y 
 
+
     def add(self, z):
         return self.x + self.y + z
     
