@@ -31,15 +31,13 @@ print(zadanie3(42,56))
 
 
 def zadanie4(arr):
-    curr = arr[0]
-    arr_left = []
-    arr_right = []
-    for i in arr:
-        if i < curr:
-            arr_left.append(i)
-        else:
-            arr_right.append(i)
-    return arr if arr == arr_left + arr_right else zadanie4(arr_left + arr_right)
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return zadanie4(left) + middle + zadanie4(right)
 
 print(zadanie4([6,3,1,7,8,2,5,4]))
 
