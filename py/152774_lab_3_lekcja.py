@@ -1,3 +1,4 @@
+# %%
 import itertools
 import math
 import random
