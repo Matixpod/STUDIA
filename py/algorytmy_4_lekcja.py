@@ -56,82 +56,34 @@ zadanie2('2 7 + 3 / 14 3 - 4 * + 2 /')
 
 def zadanie3(processes, n, p, max_time):
     completed_processes = []
-    remaining_processes = []
     processes_queue = deque(processes)
     time = 0
-
-    while time < max_time:
-        print(processes_queue)
-        process, duration = processes_queue.popleft()
-        while duration and time < max_time:
-            if duration > n:
-                duration -= n
-            else:
-                duration = 0
-
-            if duration == 0:
-                completed_processes.append(process)
-            else:
-                processes_queue.append((process,duration))
+    while processes_queue and time <= max_time:
+        name, duration = processes_queue.popleft()
+        if duration > n:
+            duration -= n
+            if random.random() < p:
+                duration += random.randrange(0,100)
+            processes_queue.append((name, duration))
+        else:
+            duration = 0
+            completed_processes.append(name)
 
         time += n
+    return f'Zakończone procesy: {completed_processes} \nPozostałe procesy: {processes_queue}'
     
-    print(processes_queue)
-
-    # for process,duration in processes_queue:
-    #     remaining_processes.append(process)
-
-    # return remaining_processes,completed_processes
 
 processes = [
-        ('git status', 25),
-        ('python calculations.py', 534),
-        ('gcc main.c', 1348),
-        ('screenshot', 105)
+        ('git status', 150),
+        ('python calculations.py', 230),
+        ('gcc main.c', 130),
+        ('screenshot', 100)
         ]
 
-print(zadanie3(processes, n=4, p=0.2, max_time=1000))
+print(zadanie3(processes, n=10, p=0.2, max_time=1000))
 
 # %%
 
-
-
-def scheduler(processes, n, p, max_time):
-    completed_processes = []
-    remaining_processes = []
-    processes_queue = deque(processes)
-
-    time = 0
-    while processes_queue and time < max_time:
-        current_process, duration = processes_queue.popleft()
-        while duration > 0 and time < max_time:
-            if duration >= n:
-                duration -= n
-            else:
-                duration = 0
-
-            if duration == 0:
-                completed_processes.append(current_process)
-            else:
-                if random.random() < p:
-                    duration += random.randint(0, 100)
-
-            time += n
-
-    while processes_queue:
-        remaining_processes.append(processes_queue.popleft()[0])
-
-    return f'Zakończone procesy: {completed_processes} \nPozostałe procesy: {remaining_processes}'
-
-processes = [
-    ('git status', 25),
-    ('python calculations.py', 534),
-    ('gcc main.c', 1348),
-    ('screenshot', 105)
-]
-
-result = scheduler(processes, n=4, p=0.2, max_time=1000)
-print(result)
 
 
 
