@@ -1,13 +1,13 @@
 import math
 import random
-
+# %%
 # ZADANIE 1
 def zadanie1():
     arr = [1, 1.5, "tekst"]
     print(arr)
 
 # zadanie1()
-
+# %%
 # ZADANIE 2
 def zadanie2():
     num1 = int(input("Podaj liczbe 1"))
@@ -19,7 +19,7 @@ def zadanie2():
         print(num1 / num2)
 
 # zadanie2()
-
+# %%
 # ZADANIE 3
 def zadanie3():
     num = int(input("Podaj liczbe: "))
@@ -29,14 +29,14 @@ def zadanie3():
         print(num**3)
 
 # zadanie3()
-
+# %%
 # ZADANIE 4
 def zadanie4():
     print(f'"Hello, { input("Podaj imie")}!"')
 
 # zadanie4()
 
-
+# %%
 # ZADANIE 5
 def zadanie5():
     r = float(input("Podaj dlugosc r"))
@@ -47,7 +47,7 @@ def zadanie5():
 
 # zadanie5()
 
-
+# %%
 # ZADANIE 6
 def zadanie6():
     for i in range(5):
@@ -62,7 +62,7 @@ def zadanie6():
 
 # zadanie6()
 
-
+# %%
 # ZADANIE 7
 def zadanie7():
     arr = []
@@ -76,7 +76,7 @@ def zadanie7():
 
 # zadanie7()
 
-
+# %%
 # ZADANIE 8
 def zadanie8():
     arr = [5,3,2,2,213,123,3,23,-123,2]
@@ -96,7 +96,7 @@ def zadanie8():
     print("Najmniejsza wartość: ", mini , "pod indeksem: ", mini_i)
 
 # zadanie8()
-
+# %%
 # ZADANIE 9
 def zadanie9():
     a = float(input("Podaj bok a: "))
@@ -112,7 +112,7 @@ def zadanie9():
 # zadanie9()
 
 
-
+# %%
 # ZADANIE 10
 def zadanie10():
     check = 0
@@ -133,7 +133,7 @@ def zadanie10():
 
 # zadanie10()
 
-
+# %%
 # ZADANIE 11
 def zadanie11():
     num = int(input("Podaj liczbe"))
@@ -143,10 +143,10 @@ def zadanie11():
         num //= 10
     print(sum)
 
-# zadanie11()
+zadanie11()
 
 
-
+# %%
 # ZADANIE 12
 def zadanie12():
     text = input("Napisz cos: ")
@@ -160,9 +160,9 @@ def zadanie12():
     text = text[slice(0,-1,2)]
     print(text)
 
-# zadanie12()
+zadanie12()
 
-
+# %%
 # ZADANIE 13
 def zadanie13():
     text = input("Podaj tekst: ")
@@ -177,7 +177,7 @@ def zadanie13():
         print("Tekst nie jest palindromem")
 
 # zadanie13()
-
+# %%
 # ZADANIE 14
 def zadanie14():
     text = input("Podaj tekst: ")
@@ -189,9 +189,9 @@ def zadanie14():
     print(text)
 
 
-zadanie14()
+# zadanie14()
 
-
+# %%
 # ZADANIE 15
 def zadanie15(n):
     if n == 0:
@@ -204,7 +204,7 @@ def zadanie15(n):
 
 # zadanie15(999)
 
-
+# %%
 # ZADANIE 16
 def zadanie16():
     arr1 = [1, 4, 3, 5, 2]
@@ -220,9 +220,9 @@ def zadanie16():
             print(item[0], " * ", item[1], " = ", item[0] * item[1])
             
 
-# zadanie16()
+zadanie16()
 
-
+# %%
 # ZADANIE 17
 def zadanie17():
     arr = ["apple","orange", "apple", "cherry","ala", "banana","aaaaaaaa","ads"]
@@ -239,7 +239,7 @@ def zadanie17():
 
 zadanie17()
 
-
+# %%
 # ZADANIE 18
 def zadanie18():
     rng = random.randrange(1000)
@@ -256,7 +256,7 @@ def zadanie18():
             
 # zadanie18()
 
-
+# %%
 # ZADANIE 19
 def zadanie19():
     arr = [random.randrange(10) for _ in range(10)]
@@ -273,7 +273,7 @@ def zadanie19():
 
 zadanie19()
 
-
+# %%
 # ZADANIE 20
 def zadanie20():
     while True:
