@@ -12,3 +12,6 @@ class test(object):
 
 
 test(2,4).multiply(3)
+
+
+
