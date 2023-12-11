@@ -41,4 +41,3 @@ def zadanie4(arr):
 
 print(zadanie4([6,3,1,7,8,2,5,4]))
 
-
