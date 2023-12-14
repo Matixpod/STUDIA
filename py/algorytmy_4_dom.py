@@ -23,53 +23,79 @@ def zadanie1(napis):
             sym2 = s.pop()
             if  sym2 != '(':
                 return False
-     
-              
-    if len(s) == 0:
-        return True
-    else:
-        return False
+
+
+    return len(s) == 0
     
 zadanie1('a = [(3, 5), (2, 5), (2, 9)]')
 
 
-# %%%%%
 
-def zadanie2(arr):
+# %%%%%
+def zadanie2_wersja_1(arr):
+    arr_deque = deque(arr)
     stack_left = deque()
     stack_right = deque()
-    stack_left.append(arr.pop(arr.index(min(arr))))
-    stack_right.append(arr.pop(arr.index(max(arr))))
-    stack_left.append(arr.pop(0))
+    max_val = max(arr_deque)
+    min_val = min(arr_deque)
 
-    for num in arr:
-        num2 = stack_left.pop()
-        if num2 > num:
-            stack_right.append(num2)
-            stack_left.append(num)
+    max_i = arr_deque.index(max_val)
+    min_i = arr_deque.index(min_val)
+
+    stack_left.append(arr_deque[min_i])
+    stack_right.append(arr_deque[max_i])
+    arr_deque.remove(min_val)
+    arr_deque.remove(max_val)
+
+    stack_left.append(arr_deque.popleft())
+
+    while len(arr_deque) > 0:
+        element = arr_deque.popleft()
+        if element < stack_left[-1]:
+            stack_right.append(stack_left.pop())
+            stack_left.append(element)
         else:
-            while num2 < num:
-                stack_left.append(num2)
-                num2 = stack_right.pop()
-            if num2 == num:
-                stack_right.append(num)
-                stack_right.append(num2)
-            stack_right.append(num)
+            counter = 0
+            while element > stack_right[-1]:
+                stack_left.append(stack_right.pop())
+                counter += 1
+            stack_right.append(element)
+            for _ in range(counter):
+                stack_right.append(stack_left.pop())
+            
 
     while stack_left:
         stack_right.append(stack_left.pop())
-    return stack_right
+        
+    return list(stack_right)
+
+print(zadanie2_wersja_1([9,5,2,1,9,6,3,10,2,3]))
+
+# %%
+
+def zadanie2_wersja_2(arr):
+    arr_deque = deque(arr)
+    stack_left = deque()
+    stack_right = deque()
+
+    while arr_deque:
+        element = arr_deque.popleft()
+        if not stack_left or element <= stack_left[-1]:
+            stack_left.append(element)
+        else:
+            while stack_left and element > stack_left[-1]:
+                stack_right.append(stack_left.pop())
+            stack_left.append(element)
+            while stack_right:
+                stack_left.append(stack_right.pop())
+            
+    return list(stack_left)
 
 
-zadanie2([9,5,2,1,9,6,3,10,2,3,23])
-# zadanie2([random.randrange(1000) for _ in range(100)])
 
+print(zadanie2_wersja_2([9,5,2,1,9,6,3,10,2,3]))
 
-
-
-
-
-
+# %%
 
 
 
