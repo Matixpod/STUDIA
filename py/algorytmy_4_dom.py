@@ -1,6 +1,5 @@
 # %%
 from collections import deque
-import random
 # %%
 
 def zadanie1(napis):
@@ -98,9 +97,19 @@ print(zadanie2_wersja_2([9,5,2,1,9,6,3,10,2,3]))
 # %%
 
 
+def zadanie3(line):
+    line = deque(line)
+    exit = deque()
+    while line:
+        name, send = line.popleft()
+        if send == True:
+            send = False
+            line.append((name, send))
+        elif send == False:
+            exit.append((name, send))
+
+    return line,exit
 
 
 
-
-
-
+zadanie3([('Grażyna', True),('Laura', False),('Bartek', False),('Andrzej', True),('Wiesiek', False)])
