@@ -68,7 +68,7 @@ def zadanie2_wersja_1(arr):
         
     return list(stack_right)
 
-print(zadanie2_wersja_1([9,5,2,1,9,6,3,10,2,3]))
+print(zadanie2_wersja_1([900,5,2,16,9,6,3678,10,2,3]))
 
 # %%
 
