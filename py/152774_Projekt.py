@@ -47,7 +47,7 @@ class Database(object):
     
 
     def save_changes(self):
-        with open(self.path,'w') as file:
+        with open(self.path,'w',encoding='utf-8') as file:
             for student in self.data_table[1:]:
                 file.write(' '.join(student))
                 file.write('\n')
@@ -57,7 +57,7 @@ class Database(object):
     def load_data(self):
         self.path = input('Podaj ścieżkę do pliku: ')
         try:
-            with open(self.path) as file:
+            with open(self.path, encoding='utf-8') as file:
                 self.data_table = [['Imię','Nazwisko','Numer albumu']]
                 self.data_table.extend(line.strip().split(" ") for line in file)
                 print(tabulate(self.data_table,headers='firstrow',tablefmt='fancy_grid'))
