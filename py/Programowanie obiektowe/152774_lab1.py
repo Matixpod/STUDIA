@@ -25,6 +25,8 @@ class Samochod():
         return "Samochód został zniszczony"
     
 
+
+
 class Droga():
     def __init__(self,rodzaj,maksymalna_predkosc):
         self.rodzaj = rodzaj
@@ -101,7 +103,7 @@ print(elektrownia_wiatrowa.get_info())
 print(elektrowania_sloneczna.get_info())
 elektrowania_hybrydowa = elektrownia_wiatrowa + elektrowania_sloneczna
 print(elektrowania_hybrydowa.get_info())
-# %%
+# %% Zadanie 4
 
 class Fraction():
     def __init__(self, a, b):
