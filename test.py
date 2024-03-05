@@ -11,6 +11,7 @@ class CommonPoint(object):
         self.xpoints = np.linspace(-10, 10, 1000)
 
 
+
     def difference(self, x):
         return self.f(x) - self.g(x)
 

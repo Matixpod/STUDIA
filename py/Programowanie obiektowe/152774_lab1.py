@@ -122,12 +122,6 @@ class Fraction():
         print(f"{nowy_licznik1}/{nowy_mianownik} + {nowy_licznik2}/{nowy_mianownik}")
         
 
-
-
-
-
-
-
 f = Fraction(3, 4)
 print(f)
 
