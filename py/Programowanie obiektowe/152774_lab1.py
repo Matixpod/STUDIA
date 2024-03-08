@@ -85,13 +85,22 @@ class Energia_Odnawialna():
         self.moc = moc
         self.lokacja = lokacja
 
+    def get_info(self):
+        return f"Źródło: {self.nazwa}, Moc: {self.moc} Watt, Lokalizacja: {self.lokacja}"
 
 
+    def __add__(self,other):
+        zrodlo = f"{self.nazwa}, {other.nazwa}"
+        moc = self.moc + other.moc
+        lokacja = f"{self.lokacja}, {other.lokacja}"
+        return Energia_Odnawialna(zrodlo, moc, lokacja)
 elektrownia_wiatrowa = Energia_Odnawialna("Wiatr", 50, "Niemcy")
 elektrowania_sloneczna = Energia_Odnawialna("Slonce", 30, "Polska")
 
-
-
+print(elektrownia_wiatrowa.get_info())
+print(elektrowania_sloneczna.get_info())
+elektrowania_hybrydowa = elektrownia_wiatrowa + elektrowania_sloneczna
+print(elektrowania_hybrydowa.get_info())
 # %%
 
 class Fraction():
@@ -116,16 +125,87 @@ class Fraction():
 
 
     def __add__(self,other):
+        nowy_licznik = (self.licznik * other.mianownik) + (other.licznik * self.mianownik)
         nowy_mianownik = self.mianownik * other.mianownik
-        nowy_licznik1 = self.licznik * other.mianownik
-        nowy_licznik2 = other.licznik * self.mianownik
-        print(f"{nowy_licznik1}/{nowy_mianownik} + {nowy_licznik2}/{nowy_mianownik}")
+        return Fraction(nowy_licznik,nowy_mianownik)
+    
+    def __sub__(self,other):
+        nowy_licznik = (self.licznik * other.mianownik) - (other.licznik * self.mianownik)
+        nowy_mianownik = self.mianownik * other.mianownik
+        return Fraction(nowy_licznik,nowy_mianownik)
+    
+    def __mul__(self, other):
+        nowy_licznik = self.licznik * other.licznik
+        nowy_mianownik = self.mianownik * other.mianownik
+        return Fraction(nowy_licznik,nowy_mianownik)
+
+
+    def __truediv__(self,other):
+        nowy_licznik = self.licznik * other.mianownik
+        nowy_mianownik = self.mianownik * other.licznik
+        return Fraction(nowy_licznik,nowy_mianownik)
+
+    def __abs__(self):
+        return Fraction(abs(self.licznik), self.mianownik)
+    
+    def __eq__(self, other):
+        return self.licznik == other.licznik and self.mianownik == other.mianownik
+
+    def __ne__(self, other):
+        return not self.licznik == other.licznik and self.mianownik == other.mianownik
+
+    def __lt__(self, other):
+        return self.licznik/self.mianownik < other.licznik/other.mianownik
+
+    def __le__(self, other):
+        return self.licznik/self.mianownik < other.licznik/other.mianownik or self.licznik == other.licznik and self.mianownik == other.mianownik
+
+    def __gt__(self, other):
+        return self.licznik/self.mianownik > other.licznik/other.mianownik
+
+    def __ge__(self, other):
+        return self.licznik/self.mianownik > other.licznik/other.mianownik or self.licznik == other.licznik and self.mianownik == other.mianownik
         
 
+<<<<<<< HEAD
+=======
+
+    def __float__(self):
+        return float(self.licznik/self.mianownik)
+    
+    def __int__(self):
+        return int(self.licznik/self.mianownik)
+    
+    def __bool__(self):
+        return bool(self.licznik/self.mianownik)
+
+    def __round__(self,digits):
+        return round(self.licznik/self.mianownik, digits)
+
+
+
+>>>>>>> ff667cdc267f46034c81fdbc4768135d07bc6ed7
 f = Fraction(3, 4)
 print(f)
 
-Fraction(1, 4) + Fraction(2, 4)
+print(Fraction(2, 4) + Fraction(4, 4))
+print(Fraction(2, 4) - Fraction(4, 4))
+print(Fraction(1, 2) * Fraction(3, 4))
+print(Fraction(4, 5) / Fraction(3, 7))
+print(abs(Fraction(-69,13)))
+
+print(Fraction(3, 7) == Fraction(6, 14))
+print(Fraction(3, 7) != Fraction(6, 14))
+print(Fraction(3, 7) < Fraction(6, 14))
+print(Fraction(3, 7) <= Fraction(6, 14))
+print(Fraction(3, 7) > Fraction(6, 14))
+print(Fraction(3, 7) >= Fraction(6, 14))
+
+print(float(Fraction(1, 3)))
+print(int(Fraction(2, 4)))
+print(bool(Fraction(2, 4)))
+
+print(round(Fraction(1, 3),2))
 
 
 
