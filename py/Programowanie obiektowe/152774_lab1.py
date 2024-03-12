@@ -168,10 +168,6 @@ class Fraction():
     def __ge__(self, other):
         return self.licznik/self.mianownik > other.licznik/other.mianownik or self.licznik == other.licznik and self.mianownik == other.mianownik
         
-
-<<<<<<< HEAD
-=======
-
     def __float__(self):
         return float(self.licznik/self.mianownik)
     
@@ -185,8 +181,6 @@ class Fraction():
         return round(self.licznik/self.mianownik, digits)
 
 
-
->>>>>>> ff667cdc267f46034c81fdbc4768135d07bc6ed7
 f = Fraction(3, 4)
 print(f)
 
