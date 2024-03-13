@@ -29,7 +29,7 @@ print(prosta.miejsce_zerowe())
 
 # %% Zadanie 2
 
-class Prostokat():
+class Prostokat:
     def __init__(self,p1, p2):
         self.p1 = p1
         self.p2 = p2
@@ -53,7 +53,7 @@ class Prostokat():
         plt.show()
 
         
-class Punkt():
+class Punkt:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -74,13 +74,13 @@ print(prostokat.obwod())
 # %% Zadanie 3
 
 
-class Note():
+class Note:
     def __init__(self,autor,tresc):
         self.autor = autor
         self.tresc = tresc
         self.data = datetime.datetime.now()
 
-class Notebook():
+class Notebook:
     def __init__(self):
         self.notes = []
         
@@ -112,7 +112,7 @@ print(Notatnik)
 
 # %% Zadanie 4
 
-class Pracownik():
+class Pracownik:
     def __init__(self,imie,nazwisko,stanowisko, pensja):
         self.imie = imie
         self.nazwisko = nazwisko
@@ -143,7 +143,7 @@ osoba.podwyzka(10000)
 print(osoba.get_pensja())
 
 # %% Zadanie 5
-class Player():
+class Player:
     def __init__(self, nick):
         self.nick = nick
         self.__health = 100

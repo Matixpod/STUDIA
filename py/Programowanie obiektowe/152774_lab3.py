@@ -113,8 +113,10 @@ class Student():
     @staticmethod
     def print_students_by_year(students):
         dic = Student.get_student_by_year(students)
-        for key, value in dic:
-            print(key,value)
+        for key in dic:
+            print(f"{key} ")
+            for element in dic[key]:
+                print(f"{element.get_full_name()} ({element.age} lat, średnia ocen: {element.gpa})")
 
 
 
@@ -122,12 +124,14 @@ s1 = Student("Jan", "Kowalski", 20, 2, 3.5)
 s2 = Student("Anna", "Nowak", 22, 3, 2.8)
 s3 = Student("Piotr", "Czerwinski", 19, 1, 2.1)
 s4 = Student("Katarzyna", "Wójcik", 21, 4, 4.0)
+s5 = Student("Albert", "Matysiak", 20, 5, 2.0)
+s6 = Student("Anna", "Kowalska", 22, 3, 3.8)
 
 print(s1.get_full_name())
 print(s3.is_on_prohibition())
-print(Student.get_average_age([s1,s2,s3,s4]))
-print(Student.get_student_by_year([s1,s2,s3,s4]))
-Student.print_students_by_year([s1,s2,s3,s4])
+print(Student.get_average_age([s1,s2,s3,s4,s5,s6]))
+# print(Student.get_student_by_year([s1,s2,s3,s4]))
+Student.print_students_by_year([s1,s2,s3,s4,s5,s6])
 
 
 
