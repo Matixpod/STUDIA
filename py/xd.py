@@ -1,6 +1,6 @@
-# from tabulate import tabulate
+from tabulate import tabulate
 
-# print(tabulate([["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",]],tablefmt='fancy_grid'))
+print(tabulate([["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",],["kutas","kutas","kutas","kutas",]],tablefmt='fancy_grid'))
 
 
 
