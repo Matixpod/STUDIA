@@ -24,6 +24,7 @@ def non_directional_graph(V,E):
     plt.ylabel('Y')
     plt.gca().set_axisbelow(True)
     plt.grid(True)
+    plt.figure(figsize=(8,6),dpi=300)
     plt.show()
 
 
@@ -58,6 +59,7 @@ def directional_graph(V,E):
     plt.ylabel('Y')
     plt.gca().set_axisbelow(True)
     plt.grid(True)
+    plt.figure(figsize=(8,6),dpi=300)
     plt.show()
 
 
