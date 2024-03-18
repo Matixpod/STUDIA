@@ -116,7 +116,7 @@ class Student():
         for key in dic:
             print(f"{key} ")
             for element in dic[key]:
-                print(f"{element.get_full_name()} ({element.age} lat, średnia ocen: {element.gpa})")
+                print(f"- {element.get_full_name()} ({element.age} lat, średnia ocen: {element.gpa})")
 
 
 
@@ -133,15 +133,50 @@ print(Student.get_average_age([s1,s2,s3,s4,s5,s6]))
 # print(Student.get_student_by_year([s1,s2,s3,s4]))
 Student.print_students_by_year([s1,s2,s3,s4,s5,s6])
 
+# %% Zadanie 4
+
+class Athlete:
+    counter = 0
+    team = ""
+    country = ""
+    def __init__(self, name, age, height, weight, sport):
+        self.name = name
+        self.age = age
+        self.height = height
+        self.weight = weight
+        self.sport = sport
+        Athlete.counter += 1
+
+    def get_bmi(self):
+        return round(self.weight / ((self.height/100)**2))
+    
+    def get_info(self):
+        return f"{self.name} {self.age} {self.height} {self.weight} {self.sport} {self.team} {self.country}"
+
+    def set_team(self,team):
+        Athlete.team = team
+
+    def set_country(self,country):
+        Athlete.country = country   
+
+    @classmethod
+    def reset_counter(cls):
+        cls.counter = 0
+
+    def __del__(self):
+        Athlete.counter -= 1
 
 
 
 
+athlete1 = Athlete("Adam Nowak", 25, 175, 75, "football")
+athlete2 = Athlete("Ewa Kowalska", 30, 180, 68, "tennis")
+athlete1.set_team("Real Madrid")
+athlete2.set_country("Poland")
 
 
-
-
-
-
+print(athlete1.get_bmi())
+print(athlete1.get_info())
+print(athlete2.get_info())
 
 

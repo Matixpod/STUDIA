@@ -157,16 +157,19 @@ for line in lines:
             if V and E:
                 print(f"V = {V}")
                 print(f"E = {edges}")
-                if graph_number <= 10:
+                if graph_number < 12:
                     non_directional_graph(V, edges)
-                elif graph_number <= 20:
+                elif graph_number < 22:
                     directional_graph(V, edges)
-                elif  graph_number <= 30:
+                elif  graph_number < 32:
+                    print(f"Lista sąsiedztw:")
                     for key, value in neighborhood_list(V, edges).items():
-                        print(f"{key} - neighbors: {value}")
-                elif graph_number <= 40:
+                        print(f"{key}: {value}")
+                elif graph_number < 42:
+                    print(f"macierz sąsiedztwa")
                     print(adjacency_matrix(V, edges))
-                elif graph_number <= 50:
+                elif graph_number < 52:
+                    print(f"macierz incydencji")
                     print(incidence_matrix(V, edges))
                 V = ""
                 E = ""
