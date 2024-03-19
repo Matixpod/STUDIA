@@ -115,8 +115,8 @@ def incidence_matrix(V, E):
         v1, v2 = edge
         v1_index = V.index(v1) + 1
         v2_index = V.index(v2) + 1
-        matrix[v1_index][i + 1] = 1
-        matrix[v2_index][i + 1] = -1
+        matrix[v1_index][i + 1] = -1
+        matrix[v2_index][i + 1] = 1
 
     return tabulate(matrix, tablefmt='fancy_grid')
 

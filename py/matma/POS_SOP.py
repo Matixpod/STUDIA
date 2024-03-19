@@ -152,21 +152,22 @@ def replace_numbers_with_subscripts(text):
 
 
 
-with open('zadania.txt',encoding="utf8") as file:
-    arr = []
-    for line in file:
-        exe = line[line.index("[")+1: line.index("]")]
-        for num in exe:
-            arr.append(int(num))
+# with open('zadania.txt',encoding="utf8") as file:
+#     arr = []
+#     for line in file:
+#         exe = line[line.index("[")+1: line.index("]")]
+#         for num in exe:
+#             arr.append(int(num))
 
-        print(f"Zad {line[:-1]}")
-        print(f"SOP f = {sop(arr)}")
-        print(f"POS f = {pos(arr)}\n")
-        arr=[]
-
-
+#         print(f"Zad {line[:-1]}")
+#         print(f"SOP f = {sop(arr)}")
+#         print(f"POS f = {pos(arr)}\n")
+#         arr=[]
 
 
+
+print(f"SOP f = {sop([1,1,0,1])}")
+print(f"POS f = {pos([1,1,0,1])}")
 
 
 
