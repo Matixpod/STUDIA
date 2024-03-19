@@ -18,6 +18,7 @@ def non_directional_graph(V,E):
     for a,b in E:        
         plt.plot([points[a][0],points[b][0]],[points[a][1],points[b][1]])
 
+    plt.figure(figsize=(4,3),dpi=3000)
     plt.show()
 
 
@@ -39,6 +40,7 @@ def directional_graph(V,E):
     for a,b in E:        
         plt.arrow(points[a][0], points[a][1], points[b][0] - points[a][0], points[b][1] - points[a][1],
               head_width=1, length_includes_head=True)
+    plt.figure(figsize=(10,10),dpi=100)
     plt.show()
 
 
@@ -53,6 +55,7 @@ def directional_graph(V,E):
 
 
 print(directional_graph( {'v4', 'v3', 'v1', 'v2', 'v0', 'v5'},{('v4', 'v5'), ('v1', 'v4'), ('v1', 'v2'), ('v2', 'v4'), ('v0','v5'), ('v3', 'v4')}))
+print(non_directional_graph( {'v4', 'v3', 'v1', 'v2', 'v0', 'v5'},{('v4', 'v5'), ('v1', 'v4'), ('v1', 'v2'), ('v2', 'v4'), ('v0','v5'), ('v3', 'v4')}))
 
 
 
