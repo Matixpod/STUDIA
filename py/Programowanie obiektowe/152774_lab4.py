@@ -141,9 +141,8 @@ class Ksiazka_kryminalna(Ksiazka):
 
     
 class KsiazkaFantastycznoKryminalna(Ksiazka_fantasy, Ksiazka_kryminalna):
-    def __init__(self, tytul, autor, cena, fantasy, liczba_zabojstw):
-        super().__init__(tytul, autor, cena, fantasy)
-        self.liczba_zabojstw = liczba_zabojstw
+    def __init__(self, tytul, autor, cena, **kwargs):
+        super().__init__(tytul, autor, cena, **kwargs)
 # Zrobić z użyciem kwargs...
 
 
@@ -155,17 +154,37 @@ class Biblioteka:
         self.dostepne_ksiazki = []
         self.wypozyczone_ksiazki = {}
     def lista_ksiazek(self):
-        return self.dostepne_ksiazki
+        return f"Obecnie dostepne ksiazki:\n{self.dostepne_ksiazki}"
     
     def wyswietl_wypozyczone(self):
-        return self.wypozyczone_ksiazki
+        return f"Obecnie wypożyczone ksiązki:\n{self.wypozyczone_ksiazki}"
     
     def dodaj_ksiazke(self,ksiazka):
         self.dostepne_ksiazki.append(ksiazka)
+        print("książka została dodana do biblioteki")
         
-    def wypozycz(self,ksiazka, osoba):
-        self.wypozyczone_ksiazki[osoba] = ksiazka
-        self.dostepne_ksiazki.remove(ksiazka)
+    def wypozycz(self, ksiazka, osoba):
+        """Wypożycza książkę osobie."""
+        if ksiazka in self.dostepne_ksiazki:
+            if osoba in self.wypozyczone_ksiazki:
+                self.wypozyczone_ksiazki[osoba].append(ksiazka)
+            else:
+                self.wypozyczone_ksiazki[osoba] = [ksiazka]
+            self.dostepne_ksiazki.remove(ksiazka)
+            print(f"Książka '{ksiazka}' została wypożyczona przez {osoba}.")
+        else:
+            print(f"Książka '{ksiazka}' nie jest dostępna w bibliotece.")
+
+    def zwroc(self, ksiazka, osoba):
+        """Zwraca książkę do biblioteki."""
+        if osoba in self.wypozyczone_ksiazki and ksiazka in self.wypozyczone_ksiazki[osoba]:
+            self.wypozyczone_ksiazki[osoba].remove(ksiazka)
+            self.dostepne_ksiazki.append(ksiazka)
+            print(f"Książka '{ksiazka}' została zwrócona przez {osoba}.")
+        else:
+            print(f"Książka '{ksiazka}' nie jest wypożyczona przez {osoba}.")
+
+
 
 ksiazka1 = Ksiazka("Dune", "Frank Herbert", 39.99)
 ksiazka2 = Ksiazka_fantasy("Władca Pierscieni", "J.R.R. Tolkien", 49.99, "high fantasy")
@@ -177,17 +196,78 @@ biblioteka = Biblioteka()
 biblioteka.dodaj_ksiazke(ksiazka1)
 biblioteka.dodaj_ksiazke(ksiazka2)
 biblioteka.dodaj_ksiazke(ksiazka3)
-# biblioteka.wyswietl_ksiazki()
+biblioteka.lista_ksiazek()
 
+biblioteka.wypozycz(ksiazka1, "Jan Kowalski")
 biblioteka.wypozycz(ksiazka2, "Jan Kowalski")
 print(biblioteka.lista_ksiazek())
 print(biblioteka.wyswietl_wypozyczone())
-# biblioteka.zwroc_ksiazke(ksiazka2)
+biblioteka.zwroc(ksiazka2,"Jan Kowalski")
+print(biblioteka.wyswietl_wypozyczone())
+print(biblioteka.lista_ksiazek())
 
 
 
 
 
 
+# %% Zadanie 4
 
+class Furniture:
+    def __init__(self, material, size):
+        self.__material = material
+        self.size = size
+    
+    def get_material(self):
+        return self.__material
+
+    def set_material(self, material):
+        self.__material = material
+    
+
+
+class Table(Furniture):
+    def __init__(self, material, size, legs):
+        super().__init__(material,size)
+        self.__legs = legs
+    
+
+    @property
+    def legs(self):
+        return self.__legs
+
+    def set_legs(self,legs):
+        self.__legs = legs
+
+
+class Chair(Furniture):
+    def __init__(self, material, size, has_armrests):
+        super().__init__(material, size)
+        self.__has_armrests = has_armrests
+
+    @property
+    def has_armrests(self):
+        return self.__has_armrests
+    
+    @has_armrests.setter
+    def has_armrests(self,armrests):
+        self.__has_armrests = armrests
+
+
+
+
+table = Table('wood', 'large', 4)
+chair = Chair('metal', 'medium', True)
+
+print('Table material:', table.get_material())
+table.set_material('plastic')
+print('Table material after modification:', table.get_material())
+print('Table size:', table.size)
+print('Table legs:', table.legs)
+table.set_legs(6)
+print('Table legs after modification:', table.legs)
+print('Chair material:', chair.get_material())
+print('Chair has armrests:', chair.has_armrests)
+chair.has_armrests = False
+print('Chair has armrests after modification:', chair.has_armrests)
 
