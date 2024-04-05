@@ -26,7 +26,7 @@ def metoda_połowienia(f, a, b, eps=1e-6, max_iter=100):
     return None, punkty_iteracyjne
 
 def wizualizacja_punktow_iteracyjnych(f, a, b, punkty_iteracyjne):
-    x = np.linspace(a, b, 100)
+    x = np.linspace(a, b, 100)  
     y = f(x)
     
     plt.plot(x, y, label="f(x)")
