@@ -73,7 +73,7 @@ def monte_carlo(f,a,b,y_max,N):
     return (b-a) * y_max * (N_traf/N)
 
 
-print(monte_carlo(f, 0, 2, 8, 1000))
+print(monte_carlo(f, 0, 2, 8, 10000))
 
 
 
