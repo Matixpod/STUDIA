@@ -114,13 +114,12 @@ def zadanie4(n,left,middle,right):
     if n == 1:
         print(f"przenieś dysk 1 z {left} do {right}")
         return
-    
     zadanie4(n-1,left,right,middle)
     print(f"przenieś dysk {n} z {left} do {right}")
     zadanie4(n-1,middle,left,right)
 
 
-zadanie4(5,'A','B','C')
+zadanie4(64,'A','B','C')
 
 
 
