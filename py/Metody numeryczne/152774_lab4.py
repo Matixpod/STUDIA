@@ -64,20 +64,6 @@ def fxy(x,y):
     return 2*x**2 + y**2 + x*y - 6*x - 5*y - 8
 
 
-# def metoda_spadku(f,x0,y0,alpha,max_iter):
-#     i=0
-#     xk,yk = x0,y0
-#     while i<max_iter:
-#         A = [(xk, yk),(xk + alpha, yk),(xk - alpha, yk),(xk, yk + alpha),(xk, yk - alpha)]
-#         F = [f(xk, yk), f(xk+alpha, yk), f(xk-alpha, yk), f(xk, yk+alpha), f(xk, yk-alpha)]
-#         if (xk,yk) == A[np.argmin(F)]:
-#             break
-#         xk,yk = A[np.argmin(F)]
-#         i+=1
-#     return (xk,yk)
-
-# metoda_spadku(fxy,-3,-3,0.5,100)
-
 
 
 def visualize_optimization_path(f, x0, y0, alpha, max_iter):
