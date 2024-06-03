@@ -1,11 +1,14 @@
 import collections
 import datetime
 import abc
+from tkinter import messagebox
+from tkinter import filedialog
 import matplotlib.pyplot as plt
 from tkinter import *
 from tkinter import simpledialog
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import numpy as np
 
 class Transaction(abc.ABC):
     def __init__(self, amount, title, category, method, description="Brak opisu"):
@@ -51,17 +54,26 @@ class TransactionHistory(collections.UserDict):
     pass
 
 class FinanceReport:
+    month = datetime.date.today().strftime("%Y-%m")
+
     def __init__(self):
         self.transaction_history = TransactionHistory()
+        self.view_mode = "monthly"
 
     def add_transaction(self, transaction):
         self.transaction_history[transaction.id] = transaction
 
     def calculate_income(self):
-        return sum(transaction.amount for transaction in self.transaction_history.values() if isinstance(transaction, Income))
+        if self.view_mode == "all_time":
+            return sum(transaction.amount for transaction in self.transaction_history.values() if isinstance(transaction, Income))
+        monthly_income, monthly_expense = self.summary()
+        return monthly_income[self.month]
 
     def calculate_expenses(self):
-        return sum(transaction.amount for transaction in self.transaction_history.values() if isinstance(transaction, Expense))
+        if self.view_mode == "all_time":
+            return sum(transaction.amount for transaction in self.transaction_history.values() if isinstance(transaction, Expense))
+        monthly_income, monthly_expense = self.summary()
+        return monthly_expense[self.month]
 
     def get_balance(self):
         income = self.calculate_income()
@@ -72,7 +84,17 @@ class FinanceReport:
         income = self.calculate_income()
         expense = self.calculate_expenses()
         balance = self.get_balance()
-        return f"Raport finansowy\n Aktualny stan konta: {balance} zł\n Zarobki: {income} zł\n Wydatki: {expense} zł"
+        return f"Raport finansowy\n Stan konta: {balance} zł\n Zarobki: {income} zł\n Wydatki: {expense} zł"
+
+    def generate_transaction_history_report(self):
+        report = "Historia transakcji:\n"
+        for transaction in self.transaction_history.values():
+            if self.view_mode == "monthly" and transaction.date.strftime("%Y-%m") == self.month:
+                report += str(transaction) + "\n"
+            elif self.view_mode == "all_time":
+                report += str(transaction) + "\n"
+                
+        return report
 
     def summary(self):
         monthly_income = collections.defaultdict(float)
@@ -86,90 +108,150 @@ class FinanceReport:
                 monthly_expense[month_year] += transaction.amount
 
         return monthly_income, monthly_expense
+    
+    def change_view(self):
+        self.view_mode = "all_time" if self.view_mode == "monthly" else "monthly"
 
 class FinanceApp:
     def __init__(self, root, report):
         self.root = root
         self.report = report
-        self.root.geometry('600x400')
+        self.root.geometry('800x600')
         self.root.title("System zarządzania finansami")
 
         self.setup_ui()
+        self.update_display()
 
     def setup_ui(self):
-        btn_add_transaction = Button(self.root, text="Dodaj transakcję", command=lambda: self.add_transaction())
-        btn_add_transaction.pack()
-        
-        btn_income = Button(self.root, text="Zarobki", command=lambda: self.show_income())
-        btn_income.pack()
-        
-        btn_expense = Button(self.root, text="Wydatki", command=lambda: self.show_expenses())
-        btn_expense.pack()
-        
-        btn_balance = Button(self.root, text="Saldo", command=lambda: self.show_balance())
-        btn_balance.pack()
-        
-        btn_report = Button(self.root, text="Raport", command=lambda: self.show_report())
-        btn_report.pack()
+        btn_add_transaction = Button(self.root, text="Dodaj transakcję", command=lambda: self.add_transaction(), width=25)
+        btn_add_transaction.grid(row=0, column=5)
 
-        btn_summary_plot = Button(self.root, text="Wykres", command=lambda: self.show_summary_plot())
-        btn_summary_plot.pack()
+        btn_report = Button(self.root, text="Raport", command=lambda: self.show_report(), width=25)
+        btn_report.grid(row=1, column=5)
 
-    def show_income(self):
+        btn_history = Button(self.root, text="Historia transakcji", command=lambda: self.show_transaction_history(), width=25)
+        btn_history.grid(row=3, column=5)
+
+        btn_change_view = Button(self.root, text="Przełącz widok", command=lambda: self.change_view(), width=25)
+        btn_change_view.grid(row=4, column=5)
+
+        self.fig = Figure(figsize=(6, 4), dpi=100)
+        self.ax = self.fig.add_subplot(111)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
+        self.canvas.get_tk_widget().grid(row=10, column=0, columnspan=3)
+
+        self.income_label = Label(self.root, text="", font=("Helvetica", 18))
+        self.income_label.grid(row=1, column=0)
+
+        self.expense_label = Label(self.root, text="", font=("Helvetica", 18))
+        self.expense_label.grid(row=1, column=1)
+
+        self.balance_label = Label(self.root, text="", font=("Helvetica", 18))
+        self.balance_label.grid(row=1, column=2)
+
+    def update_display(self):
         income = self.report.calculate_income()
-        Label(self.root, text=f"Zarobki: {income} zł").pack()
-
-    def show_expenses(self):
         expense = self.report.calculate_expenses()
-        Label(self.root, text=f"Wydatki: {expense} zł").pack()
-
-    def show_balance(self):
         balance = self.report.get_balance()
-        Label(self.root, text=f"Saldo: {balance} zł").pack()
+
+        self.income_label.config(text=f"Zarobki: {income} zł")
+        self.expense_label.config(text=f"Wydatki: {expense} zł")
+        self.balance_label.config(text=f"Saldo: {balance} zł")
+
+        self.show_summary_plot()
 
     def show_report(self):
         report = self.report.generate_balance_report()
-        Label(self.root, text=report).pack()
+        history = self.report.generate_transaction_history_report()
+        full_report = report + "\n\n" + history
+
+        report_window = Toplevel(self.root)
+        report_window.title("Raport")
+        
+        report_label = Label(report_window, text=report, justify=LEFT)
+        report_label.pack(anchor=W)
+        
+        history_label = Text(report_window)
+        history_label.insert(END, history)
+        history_label.pack()
+
+        save_button = Button(report_window, text="Zapisz do pliku", command=lambda: self.save_report_to_file(full_report))
+        save_button.pack()
+
+    def save_report_to_file(self, full_report):
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        if file_path:
+            with open(file_path, 'w') as file:
+                file.write(full_report)
+            messagebox.showinfo("Informacja", "Raport zapisany pomyślnie!")
 
     def show_summary_plot(self):
-        monthly_income, monthly_expense = self.report.summary()
-        
-        months = sorted(set(monthly_income.keys()).union(set(monthly_expense.keys())))
-        income_values = [monthly_income[month] for month in months]
-        expense_values = [monthly_expense[month] for month in months]
+        if self.report.view_mode == 'all_time':
+            monthly_income, monthly_expense = self.report.summary()
 
-        fig = Figure(figsize=(6, 4), dpi=100)
-        ax = fig.add_subplot(111)
-        ax.plot(months, income_values, color='green', label='Zarobki')
-        ax.plot(months, expense_values, color='red', label='Wydatki')
-        ax.legend()
-        ax.set_title('Zarobki i Wydatki Miesięcznie')
-        ax.set_xlabel('Miesiąc')
-        ax.set_ylabel('Kwota')
-        ax.tick_params(axis='x')
-        
-        canvas = FigureCanvasTkAgg(fig, master=self.root)
-        canvas.draw()
-        canvas.get_tk_widget().pack()
+            months = sorted(set(monthly_income.keys()).union(set(monthly_expense.keys())))
+            income_values = [monthly_income[month] for month in months]
+            expense_values = [monthly_expense[month] for month in months]
+
+            self.ax.clear()
+            self.ax.plot(months, income_values, color='green', label='Zarobki')
+            self.ax.plot(months, expense_values, color='red', label='Wydatki')
+            self.ax.legend()
+            self.ax.set_title('Zarobki i Wydatki przez cały czas')
+            self.ax.set_xlabel('Miesiąc')
+            self.ax.set_ylabel('Kwota')
+            self.ax.tick_params(axis='x')
+            
+            self.canvas.draw()
+        else:
+            last_month_transactions = [transaction for transaction in self.report.transaction_history.values() if transaction.date.strftime("%Y-%m") == self.report.month]
+            income = sum(transaction.amount for transaction in last_month_transactions if isinstance(transaction, Income))
+            expense = sum(transaction.amount for transaction in last_month_transactions if isinstance(transaction, Expense))
+
+            labels = ['Zarobki', 'Wydatki']
+            values = [income, expense]
+            colors = ['green', 'red']
+
+            self.ax.clear()
+            self.ax.bar(labels, values, color=colors)
+            self.ax.set_title('Zarobki i Wydatki w tym miesiącu')
+            self.ax.set_ylabel('Kwota w zł')
+            
+            self.canvas.draw()
 
     def add_transaction(self):
         transaction_type = simpledialog.askstring("Rodzaj transakcji", "Podaj rodzaj transakcji (income/expense):")
         amount = simpledialog.askfloat("Kwota", "Podaj kwotę:")
         title = simpledialog.askstring("Tytuł", "Podaj tytuł:")
         category = simpledialog.askstring("Kategoria", "Podaj kategorię:")
-        method = simpledialog.askstring("Metoda", "Podaj metodę płatności:")
+        method = simpledialog.askstring("Metoda", "Podaj metodę:")
         description = simpledialog.askstring("Opis", "Podaj opis (opcjonalnie):")
 
-        if transaction_type.lower() == "income":
+        if transaction_type == "income":
             transaction = Income(amount, title, category, method, description)
-        elif transaction_type.lower() == "expense":
+        elif transaction_type == "expense":
             transaction = Expense(amount, title, category, method, description)
         else:
-            Label(self.root, text="Nieprawidłowy rodzaj transakcji!").pack()
+            messagebox.showerror("Błąd", "Niepoprawny rodzaj transakcji!")
             return
 
         self.report.add_transaction(transaction)
-        Label(self.root, text="Transakcja dodana!").pack()
+        self.update_display()
+
+    def show_transaction_history(self):
+        history_report = self.report.generate_transaction_history_report()
+        history_window = Toplevel(self.root)
+        history_window.title("Historia transakcji")
+        history_text = Text(history_window)
+        history_text.insert(END, history_report)
+        history_text.pack()
+
+        save_button = Button(history_window, text="Zapisz do pliku", command=lambda: self.save_report_to_file(history_report))
+        save_button.pack()
+
+    def change_view(self):
+        self.report.change_view()
+        self.update_display()
 
 if __name__ == "__main__":
     zarobek_1 = Income(690, "lód", "Seks", "Blik")
