@@ -1,0 +1,149 @@
+Zadanie 1
+#define buzzer 12
+
+void setup() {
+  pinMode(buzzer, OUTPUT); // Set pin 12 as output for the buzzer
+}
+
+void loop() {
+  // Happy Birthday Melody
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 294); delay(500); // D4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 349); delay(500); // F4
+  tone(buzzer, 330); delay(500); // E4
+  delay(500); // Pause
+  
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 294); delay(500); // D4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 392); delay(500); // G4
+  tone(buzzer, 349); delay(500); // F4
+  delay(500); // Pause
+  
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 294); delay(500); // D4
+  tone(buzzer, 262); delay(500); // C4
+  tone(buzzer, 349); delay(500); // F4
+  tone(buzzer, 330); delay(500); // E4
+  tone(buzzer, 294); delay(500); // D4
+  delay(500); // Pause
+  
+  tone(buzzer, 466); delay(500); // A4
+  tone(buzzer, 466); delay(500); // A4
+  tone(buzzer, 440); delay(500); // G4
+  tone(buzzer, 349); delay(500); // F4
+  tone(buzzer, 392); delay(500); // G4
+  tone(buzzer, 349); delay(500); // F4
+  delay(500); // Pause
+  
+  while (true); // Stop looping
+}
+
+
+Zadanie 2 
+
+void setup(){
+}
+
+void loop(){
+  analogWrite(9,255);
+  delay(500);
+  analogWrite(10,255);
+  delay(1000);
+  analogWrite(11,255);
+  delay(2000);
+  analogWrite(9,0);
+  analogWrite(10,0);
+  analogWrite(11,0);
+  delay(1000);
+
+}
+
+
+Zadanie 3
+
+#include <TM1637.h>
+
+const int CLK = 1;
+const int DIO = 2;
+
+TM1637 tm(CLK, DIO);
+
+static void GoUpHour(int &Fhour, int &Shour){
+
+  if(Shour > 9){
+    Shour = 0;
+    Fhour++;
+  }
+  if(Fhour != 0 && Shour < 0){
+    Shour = 9;
+    Fhour--;
+  }
+  
+  // Zabezpieczenie przed przekroczeniem 24 godzin
+  if (Fhour > 2 || (Fhour == 2 && Shour > 3)) {
+    Fhour = 0;
+    Shour = 0;
+  }
+}
+
+void setup() {
+
+  tm.init();
+  tm.set(BRIGHT_TYPICAL);
+  tm.point(true); // Włączenie kropki pomiędzy godziną a wartością changeValue
+  tm.display(0);
+
+  pinMode(3, INPUT_PULLUP);  // Zmniejsz godziny
+  pinMode(4, INPUT_PULLUP);  // Zwiększ godziny
+  pinMode(5, INPUT_PULLUP);  // Zmniejsz wartość zmiany
+  pinMode(6, INPUT_PULLUP);  // Zwiększ wartość zmiany
+}
+
+static int Fhour = 0;
+static int Shour = 0;
+static int changeValue = 1;  // Domyślna wartość zmiany
+
+void loop() {
+  
+  // Zwiększ godziny
+  if (digitalRead(4) == LOW) {
+    delay(150);
+    Shour += changeValue;  // Zmieniamy godziny o wartość "changeValue"
+    GoUpHour(Fhour, Shour);
+    tm.display(0, Fhour);  // Wyświetl dziesiątki godzin
+    tm.display(1, Shour);  // Wyświetl jedności godzin
+  }
+  // Zmniejsz godziny
+  else if (digitalRead(3) == LOW && (Fhour > 0 || Shour > 0)) {
+    delay(150);
+    Shour -= changeValue;  // Zmieniamy godziny o wartość "changeValue"
+    GoUpHour(Fhour, Shour);
+    tm.display(0, Fhour);  // Wyświetl dziesiątki godzin
+    tm.display(1, Shour);  // Wyświetl jedności godzin
+  }
+
+  // Zwiększ wartość zmiany
+  if (digitalRead(6) == LOW) {
+    delay(150);
+    changeValue++;  // Zwiększamy wartość zmiany
+  }
+  // Zmniejsz wartość zmiany (minimalna wartość to 1)
+  else if (digitalRead(5) == LOW && changeValue > 1) {
+    delay(150);
+    changeValue--;  // Zmniejszamy wartość zmiany, ale nie poniżej 1
+  }
+
+  // Wyświetlanie wartości zmiany w miejscu minut (segmenty 2 i 3)
+  int Fchange = changeValue / 10;  // Dziesiątki wartości zmiany
+  int Schange = changeValue % 10;  // Jedności wartości zmiany
+  tm.display(2, Fchange);  // Wyświetl dziesiątki changeValue
+  tm.display(3, Schange);  // Wyświetl jedności changeValue
+}
+
+Zadanie 4
+
