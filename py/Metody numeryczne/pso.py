@@ -25,8 +25,8 @@ class PSO:
         self.v_max = v_max
 
     def run(self, ff, domain, dims, maximum_iterations=10):
-        gb = []
-        avg_ff= []
+        self.gb = []
+        self.avg_ff = []
         
         swarm = [PSO.Particle(ff, domain, dims, self.v_max)
                  for i in range(self.N)]
@@ -41,8 +41,12 @@ class PSO:
 
                 if part.f_best_value < global_best.f_value:
                     global_best = copy.deepcopy(part)
-                gb.append(global_best)
-                
+
+            self.gb.append(global_best.f_value)  
+
+            
+            avg_fitness = np.mean([part.f_value for part in swarm])
+            self.avg_ff.append(avg_fitness)
 
             for part in swarm:
                 part.v = self.omega * part.v\
@@ -56,8 +60,5 @@ class PSO:
                 part.x[part.x > domain[1]] = domain[1]
                 part.f_value = ff(part.x)
                 part.v[part.v > self.v_max] = self.v_max
-            # avg_ff.append(np.mean(swarm, key=lambda p: p.f_value))
-            # print(np.min(swarm, key=lambda p: p.f_value))
 
-        print(gb,avg_ff)
-        return min(swarm, key=lambda p: p.f_value).x
+        return min(swarm, key=lambda p: p.f_value).x, self.gb, self.avg_ff

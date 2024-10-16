@@ -110,4 +110,3 @@ aproximetely(x,y)
 x = np.arange(0,3.1,0.5)
 y = np.array([1.0,0.92,0.63,-0.41,-0.94,0.27,0.89])
 aproximetely(x,y)
-# %% Zadanie 4
