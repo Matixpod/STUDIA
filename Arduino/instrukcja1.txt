@@ -2,18 +2,17 @@ Zadanie 1
 #define buzzer 12
 
 void setup() {
-  pinMode(buzzer, OUTPUT); // Set pin 12 as output for the buzzer
+  pinMode(buzzer, OUTPUT); 
 }
 
 void loop() {
-  // Happy Birthday Melody
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 294); delay(500); // D4
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 349); delay(500); // F4
   tone(buzzer, 330); delay(500); // E4
-  delay(500); // Pause
+  delay(500);
   
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 262); delay(500); // C4
@@ -21,7 +20,7 @@ void loop() {
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 392); delay(500); // G4
   tone(buzzer, 349); delay(500); // F4
-  delay(500); // Pause
+  delay(500);
   
   tone(buzzer, 262); delay(500); // C4
   tone(buzzer, 262); delay(500); // C4
@@ -30,7 +29,7 @@ void loop() {
   tone(buzzer, 349); delay(500); // F4
   tone(buzzer, 330); delay(500); // E4
   tone(buzzer, 294); delay(500); // D4
-  delay(500); // Pause
+  delay(500);
   
   tone(buzzer, 466); delay(500); // A4
   tone(buzzer, 466); delay(500); // A4
@@ -38,9 +37,9 @@ void loop() {
   tone(buzzer, 349); delay(500); // F4
   tone(buzzer, 392); delay(500); // G4
   tone(buzzer, 349); delay(500); // F4
-  delay(500); // Pause
+  delay(500);
   
-  while (true); // Stop looping
+  while (true);
 }
 
 
@@ -147,3 +146,118 @@ void loop() {
 
 Zadanie 4
 
+#include "pitches.h"
+
+#define SPEAKER_PIN 8
+
+// Definicja pinów przycisków pianina
+const uint8_t buttonPins[] = { 12, 11, 10, 9, 7, 6, 5, 4 };
+const int buttonTones[] = {
+  NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4,
+  NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5
+};
+const int numTones = sizeof(buttonPins) / sizeof(buttonPins[0]);
+
+// Definicja pinów nowych przycisków
+#define START_RECORDING_PIN 3
+#define STOP_RECORDING_PIN 2
+#define PLAYBACK_PIN A1
+#define RESET_SEQUENCE_PIN A2
+
+// Zmienna do zapisu sekwencji
+int sequence[100];
+int sequenceIndex = 0;
+bool isRecording = false;
+bool isPlaying = false;
+
+// Czas między nutami przy odtwarzaniu
+const int playbackDelay = 500;
+
+void setup() {
+  // Ustawienie pinów pianina
+  for (uint8_t i = 0; i < numTones; i++) {
+    pinMode(buttonPins[i], INPUT_PULLUP);
+  }
+  // Ustawienie pinów dodatkowych przycisków
+  pinMode(SPEAKER_PIN, OUTPUT);
+  pinMode(START_RECORDING_PIN, INPUT_PULLUP);
+  pinMode(STOP_RECORDING_PIN, INPUT_PULLUP);
+  pinMode(PLAYBACK_PIN, INPUT_PULLUP);
+  pinMode(RESET_SEQUENCE_PIN, INPUT_PULLUP);
+}
+
+void loop() {
+  // Sprawdzanie stanu dodatkowych przycisków
+  if (digitalRead(START_RECORDING_PIN) == LOW) {
+    startRecording();
+  }
+  if (digitalRead(STOP_RECORDING_PIN) == LOW) {
+    stopRecording();
+  }
+  if (digitalRead(PLAYBACK_PIN) == LOW) {
+    playSequence();
+  }
+  if (digitalRead(RESET_SEQUENCE_PIN) == LOW) {
+    resetSequence();
+  }
+
+  // Odczyt przycisków pianina
+  int pitch = 0;
+  for (uint8_t i = 0; i < numTones; i++) {
+    if (digitalRead(buttonPins[i]) == LOW) {
+      pitch = buttonTones[i];
+      if (isRecording) {
+        recordTone(pitch);
+      }
+    }
+  }
+
+  // Odtwarzanie dźwięku
+  if (pitch) {
+    tone(SPEAKER_PIN, pitch);
+  } else {
+    noTone(SPEAKER_PIN);
+  }
+}
+
+// Funkcja do rozpoczęcia nagrywania sekwencji
+void startRecording() {
+  isRecording = true;
+  sequenceIndex = 0;
+  Serial.println("Recording started...");
+}
+
+// Funkcja do zatrzymania nagrywania sekwencji
+void stopRecording() {
+  isRecording = false;
+  Serial.println("Recording stopped...");
+}
+
+// Funkcja do zapisywania nuty w sekwencji
+void recordTone(int pitch) {
+  if (sequenceIndex < 100) {
+    sequence[sequenceIndex++] = pitch;
+    delay(150);  // Małe opóźnienie, by nie zapisywać wielu razy tej samej nuty
+  }
+}
+
+// Funkcja do odtwarzania zapisanej sekwencji
+void playSequence() {
+  isPlaying = true;
+  Serial.println("Playing sequence...");
+  for (int i = 0; i < sequenceIndex; i++) {
+    if (sequence[i] != 0) {
+      tone(SPEAKER_PIN, sequence[i]);
+      delay(playbackDelay);
+      noTone(SPEAKER_PIN);
+    }
+  }
+  isPlaying = false;
+  Serial.println("Playback finished.");
+}
+
+// Funkcja do resetowania zapisanej sekwencji
+void resetSequence() {
+  sequenceIndex = 0;
+  Serial.println("Sequence reset.");
+}
