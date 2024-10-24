@@ -154,10 +154,10 @@ asymetria_klasyczno_pozycyjna_rating = A3(średnia_arytmetyczna_rating,dominanta
 asymetria_klasyczno_pozycyjna_votes = A3(średnia_arytmetyczna_votes,dominanta_votes,odchylenie_cwiartkowe_votes)
 asymetria_klasyczno_pozycyjna_runtime = A3(średnia_arytmetyczna_runtime,dominanta_runtime,odchylenie_cwiartkowe_runtime)
 
-koleracja_pearsona_rating_votes = rxy(suma_rating_votes,średnia_arytmetyczna_rating,średnia_arytmetyczna_votes,odchylenie_cwiartkowe_rating, odchylenie_cwiartkowe_votes, n)
+koleracja_pearsona_rating_votes = rxy(suma_rating_votes,średnia_arytmetyczna_rating,średnia_arytmetyczna_votes,odchylenie_standardowe_rating, odchylenie_standardowe_votes, n)
+koleracja_pearsona_rating_runtime = rxy(suma_rating_runtime,średnia_arytmetyczna_rating,średnia_arytmetyczna_runtime,odchylenie_standardowe_rating, odchylenie_standardowe_runtime, n)
+koleracja_pearsona_votes_runtime = rxy(suma_votes_runtime,średnia_arytmetyczna_votes,średnia_arytmetyczna_runtime,odchylenie_standardowe_votes, odchylenie_standardowe_runtime, n)
 
-koleracja_pearsona_rating_runtime = rxy(suma_rating_runtime,średnia_arytmetyczna_rating,średnia_arytmetyczna_runtime,odchylenie_cwiartkowe_rating, odchylenie_cwiartkowe_runtime, n)
-koleracja_pearsona_votes_runtime = rxy(suma_votes_runtime,średnia_arytmetyczna_votes,średnia_arytmetyczna_runtime,odchylenie_cwiartkowe_votes, odchylenie_cwiartkowe_runtime, n)
 print(koleracja_pearsona_rating_votes)
 print(koleracja_pearsona_rating_runtime)
 print(koleracja_pearsona_votes_runtime)
@@ -174,6 +174,9 @@ rows.append(["-->", "Współczynnik zmiennosci pozycyjny","",wspolczynnik_zmienn
 rows.append(["-->", "Asymetria klasyczna","",asymetria_klasyczna_rating,"","",asymetria_klasyczna_votes,"",asymetria_klasyczna_runtime])
 rows.append(["-->", "Asymetria pozycyjna","",asymetria_pozycyjna_rating,"","",asymetria_pozycyjna_votes,"",asymetria_pozycyjna_runtime])
 rows.append(["-->", "Asymetria klasyczno-pozycyjna","",asymetria_klasyczno_pozycyjna_rating,"","",asymetria_klasyczno_pozycyjna_votes,"",asymetria_klasyczno_pozycyjna_runtime])
+rows.append(["-->", "koleracja_pearsona","",koleracja_pearsona_rating_votes,"","",koleracja_pearsona_rating_votes,"",""])
+rows.append(["-->", "koleracja_pearsona","",koleracja_pearsona_rating_runtime,"","","","",koleracja_pearsona_rating_runtime])
+rows.append(["-->", "koleracja_pearsona","","","","",koleracja_pearsona_votes_runtime,"",koleracja_pearsona_votes_runtime])
 
 
 result = []
