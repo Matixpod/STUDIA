@@ -83,7 +83,7 @@ static void GoUpHour(int &Fhour, int &Shour){
     Fhour--;
   }
   
-  // Zabezpieczenie przed przekroczeniem 24 godzin
+
   if (Fhour > 2 || (Fhour == 2 && Shour > 3)) {
     Fhour = 0;
     Shour = 0;
@@ -94,54 +94,54 @@ void setup() {
 
   tm.init();
   tm.set(BRIGHT_TYPICAL);
-  tm.point(true); // Włączenie kropki pomiędzy godziną a wartością changeValue
+  tm.point(true);
   tm.display(0);
 
-  pinMode(3, INPUT_PULLUP);  // Zmniejsz godziny
-  pinMode(4, INPUT_PULLUP);  // Zwiększ godziny
-  pinMode(5, INPUT_PULLUP);  // Zmniejsz wartość zmiany
-  pinMode(6, INPUT_PULLUP);  // Zwiększ wartość zmiany
+  pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
+  pinMode(6, INPUT_PULLUP);
 }
 
 static int Fhour = 0;
 static int Shour = 0;
-static int changeValue = 1;  // Domyślna wartość zmiany
+static int changeValue = 1; 
 
 void loop() {
   
-  // Zwiększ godziny
+ 
   if (digitalRead(4) == LOW) {
     delay(150);
-    Shour += changeValue;  // Zmieniamy godziny o wartość "changeValue"
+    Shour += changeValue;
     GoUpHour(Fhour, Shour);
-    tm.display(0, Fhour);  // Wyświetl dziesiątki godzin
-    tm.display(1, Shour);  // Wyświetl jedności godzin
+    tm.display(0, Fhour);
+    tm.display(1, Shour);
   }
-  // Zmniejsz godziny
+
   else if (digitalRead(3) == LOW && (Fhour > 0 || Shour > 0)) {
     delay(150);
-    Shour -= changeValue;  // Zmieniamy godziny o wartość "changeValue"
+    Shour -= changeValue;
     GoUpHour(Fhour, Shour);
-    tm.display(0, Fhour);  // Wyświetl dziesiątki godzin
-    tm.display(1, Shour);  // Wyświetl jedności godzin
+    tm.display(0, Fhour);
+    tm.display(1, Shour);
   }
 
-  // Zwiększ wartość zmiany
+ 
   if (digitalRead(6) == LOW) {
     delay(150);
-    changeValue++;  // Zwiększamy wartość zmiany
+    changeValue++;
   }
-  // Zmniejsz wartość zmiany (minimalna wartość to 1)
+  
   else if (digitalRead(5) == LOW && changeValue > 1) {
     delay(150);
-    changeValue--;  // Zmniejszamy wartość zmiany, ale nie poniżej 1
+    changeValue--;
   }
 
-  // Wyświetlanie wartości zmiany w miejscu minut (segmenty 2 i 3)
-  int Fchange = changeValue / 10;  // Dziesiątki wartości zmiany
-  int Schange = changeValue % 10;  // Jedności wartości zmiany
-  tm.display(2, Fchange);  // Wyświetl dziesiątki changeValue
-  tm.display(3, Schange);  // Wyświetl jedności changeValue
+ 
+  int Fchange = changeValue / 10;
+  int Schange = changeValue % 10; 
+  tm.display(2, Fchange); 
+  tm.display(3, Schange); 
 }
 
 Zadanie 4
