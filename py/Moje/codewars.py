@@ -132,3 +132,42 @@ class Solution:
 
     
 print(Solution().maxProfitAssignment([2,4,6,8,10], [10,20,30,40,50], [4,5,6,7]))
+
+# %%
+
+
+
+def resultsArray(nums, k):
+    result = []
+    for i in range(len(nums) - k + 1):
+        section = nums[i:k+i]
+        if all(section[j] == section[j-1] + 1 for j in range(1, len(section))):
+            result.append(max(section))
+        else:
+            result.append(-1)
+    return result
+
+
+def resultsArray(nums, k):
+    result = []
+    n = len(nums)
+    diffs = [nums[i+1] - nums[i] for i in range(n-1)]    
+    for i in range(n - k + 1):
+        if all(diff == 1 for diff in diffs[i:i+k-1]):
+            result.append(nums[i+k-1])
+        else:
+            result.append(-1)
+    
+    return result
+
+resultsArray([1,2,3,4,3,2,5],3)
+# resultsArray([2,2,2,2,2],4)
+# %%
+
+
+
+
+
+
+
+
