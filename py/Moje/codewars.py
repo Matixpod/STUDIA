@@ -131,4 +131,96 @@ class Solution:
     
 
     
-print(Solution().maxProfitAssignment([2,4,6,8,10], [10,20,30,40,50], [4,5,6,7]))
+# print(Solution().maxProfitAssignment([2,4,6,8,10], [10,20,30,40,50], [4,5,6,7]))
+
+# %%
+
+def romanToInt(s):
+    dic = {"I":1,
+            "V":5,
+            "X":10,
+            "L":50,
+            "C":100,
+            "D":500,
+            "M":1000,
+    }
+    # result = 0
+    # nums = [dic[letter] for letter in s]
+    # nums.append(0)
+    # i = 0
+    # while i < len(nums)-1:
+    #     print(nums[i+1] > nums[i])
+    #     if nums[i+1] > nums[i]:
+    #         result += (nums[i+1] - nums[i])
+    #         i+=2
+    #     else:
+    #         result += nums[i]
+    #         i+=1
+    # return result
+
+    ans = 0
+    for i in range(len(s)):
+        if i < len(s) - 1 and dic[s[i]] < dic[s[i+1]]:
+            ans -= dic[s[i]]
+        else:
+            ans += dic[s[i]]
+    return ans
+
+
+print(romanToInt("MCMXCIV"))
+
+# %%
+
+def isValid(s):
+    dic = {
+        "(":")",
+        "[":"]",
+        "{":"}"
+    }
+
+    looking_for = []
+    for i in s:
+        if i in dic:
+            looking_for.append(dic[i])
+        elif i in [dic["("], dic["["], dic["{"]] and not looking_for:
+            return False
+        elif i == looking_for[-1]:
+            looking_for.pop()
+        else:
+            return False
+
+    return not looking_for
+
+
+isValid("(){}}{")
+
+# %%
+
+def removeElement(nums, val):
+    k = 0
+    for i in range(len(nums)):
+        if nums[i] != val:
+            nums[k] = nums[i]
+            k += 1
+
+    print(k)
+
+removeElement([0,1,2,2,3,0,4,2],2)
+
+# %%
+
+def generate(numRows):
+    x = 1
+    result = []
+    for i in range(1,numRows+1):
+        result.append([x]*i)
+        if len(result) > 2:
+            for j in range(1,len(result) - 1):
+                result[-1][j] = result[-2][j-1] + result[-2][j]
+
+
+    return result
+
+        
+
+generate(5)
