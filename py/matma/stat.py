@@ -2,18 +2,14 @@ import csv
 from tabulate import tabulate
 import math
 from collections import Counter
-import docx 
-  
-doc = docx.Document()
-
-
 
 filename = "movies.csv"
 
 fields = []
 rows = []
-result = []
+result = [["", "Rating", "Votes", "Runtime"]]
 
+# Wczytanie pliku CSV
 with open(filename, 'r', errors="ignore") as csvfile:
     csvreader = csv.reader(csvfile)
     fields = next(csvreader)
@@ -23,14 +19,12 @@ with open(filename, 'r', errors="ignore") as csvfile:
     rating = []
     votes = []
     runtime = []
-
     for row in csvreader:
         del row[-1]
         rows.append(row)
         rating.append(float(row[3]))
         votes.append(float(row[6]))
         runtime.append(float(row[8]))
-
 
 rating = sorted(rating)
 votes = sorted(votes)
@@ -40,17 +34,15 @@ rating_25, rating_50, rating_75, rating_100 = rating[0:2500], rating[2500:5000],
 votes_25, votes_50, votes_75, votes_100 = votes[0:2500], votes[2500:5000], votes[5000:7500], votes[7500:10000]
 runtime_25, runtime_50, runtime_75, runtime_100 = runtime[0:2500], runtime[2500:5000], runtime[5000:7500], runtime[7500:10000]
 
-
 n = len(rows)-1
 n_2 = len(rating_25)
 
+# Funkcje statystyczne
 def Suma2(arr):
     arr2 = []
     for i in arr:
         arr2.append(i**2)
-
     return sum(arr2)
-
 
 def X(arr,n):
     suma = sum(arr)
@@ -98,7 +90,7 @@ def rxy(arr1,arr2,x_,y_,Sx,Sy,n):
     xy_ = X(xy,n)
     return (xy_ - x_ * y_) / (Sx * Sy)
 
-
+# Obliczenia
 def calculation(rating,votes,runtime,n,szereg=""):
     średnia_arytmetyczna_rating = X(rating,n)
     średnia_arytmetyczna_votes = X(votes,n)
@@ -168,46 +160,32 @@ def calculation(rating,votes,runtime,n,szereg=""):
     result.append(["Asymetria klasyczna", asymetria_klasyczna_rating, asymetria_klasyczna_votes, asymetria_klasyczna_runtime])
     result.append(["Asymetria pozycyjna", asymetria_pozycyjna_rating, asymetria_pozycyjna_votes, asymetria_pozycyjna_runtime])
     result.append(["Asymetria klasyczno-pozycyjna", asymetria_klasyczno_pozycyjna_rating, asymetria_klasyczno_pozycyjna_votes, asymetria_klasyczno_pozycyjna_runtime])
-    result.append(["Korelacja Pearsona", "Rating x Votes", "Rating x Runtime", "Votes x Runtime"])
     result.append(["Korelacja Pearsona", koleracja_pearsona_rating_votes, koleracja_pearsona_rating_runtime, koleracja_pearsona_votes_runtime])
-    result.append(["","","",""])
-    result.append([szereg,"","",""])
+    result.append([""])
+    result.append([szereg])
 
+calculation(rating, votes, runtime, n, "SZEREG ROZDZIELCZY 0-2500")
+calculation(rating_25, votes_25, runtime_25, n_2, "SZEREG ROZDZIELCZY 2500-5000")
+calculation(rating_50, votes_50, runtime_50, n_2, "SZEREG ROZDZIELCZY 5000-7500")
+calculation(rating_75, votes_75, runtime_75, n_2, "SZEREG ROZDZIELCZY 7500-10000")
+calculation(rating_100, votes_100, runtime_100, n_2)
 
+# Zapisanie do pliku RTF
+def save_to_rtf(result):
+    rtf_header = "{\\rtf1\\ansi\\ansicpg1250\\deff0\\nouicompat\\deflang1045{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}}"
+    rtf_footer = "}"
 
+    # Tworzenie tabeli RTF
+    rtf_table = "{\\trowd\\trgaph108\\trleft-108"
+    for row in result:
+        rtf_table += "\\cellx" + str(4000)
+        for cell in row:
+            rtf_table += "\\intbl " + str(cell) + " "
+    rtf_table += "\\row}"
 
-calculation(rating,votes,runtime,n,"SZEREG ROZDZIELCZY 0-2500")
-calculation(rating_25,votes_25,runtime_25,n_2,"SZEREG ROZDZIELCZY 2500-5000")
-calculation(rating_50,votes_50,runtime_50,n_2,"SZEREG ROZDZIELCZY 5000-7500")
-calculation(rating_75,votes_75,runtime_75,n_2,"SZEREG ROZDZIELCZY 7500-10000")
-calculation(rating_100,votes_100,runtime_100,n_2)
+    rtf_file = rtf_header + rtf_table + rtf_footer
 
-result.pop()
-result.pop()
-# Wypisz sam wynik
-print(tabulate(result,tablefmt='fancy_grid')) 
+    with open("output.rtf", "w", encoding="utf-8") as file:
+        file.write(rtf_file)
 
-# Wypisz Dane
-# print(tabulate(rows,tablefmt='fancy_grid'))
-
-# Wyniki w wordzie
-# table = doc.add_table(rows=1, cols=4)
-
-# hdr_cells = table.rows[0].cells
-# hdr_cells[0].text = 'Data'
-# hdr_cells[1].text = 'Rating'
-# hdr_cells[2].text = 'Votes'
-# hdr_cells[3].text = 'Runtime'
-
-# for record in result:
-#     data, rating, votes, runtime = record
-    
-#     row = table.add_row().cells
-
-#     row[0].text = str(data)
-#     row[1].text = str(rating)
-#     row[2].text = str(votes)
-#     row[3].text = str(runtime)
-
-# table.style = 'Table Grid'
-# doc.save('gfg.docx')
+save_to_rtf(result)
