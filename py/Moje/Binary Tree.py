@@ -14,14 +14,19 @@ def add(key,root):
         root.right = add(key,root.right)
     return root
 
-def print_tree(root):
-    if root.left is not None:
-        print_tree(root.left)
-    if root.right is not None:
-        print_tree(root.right)
 
-    print(f"{root.val}")
-    # return f"{root.val}"
+def print_tree_2d(root, level=0, space=4):
+    if root is None:
+        return
+    # Zwiększ poziom odstępu
+    level += space
+    # Wypisz prawe poddrzewo najpierw
+    print_tree_2d(root.right, level)
+    # Wypisz bieżący węzeł
+    print(" " * (level - space) + str(root.val))
+    # Wypisz lewe poddrzewo
+    print_tree_2d(root.left, level)
+
 
 r = Node(50)
 add(25,r)
@@ -29,13 +34,7 @@ add(26,r)
 add(22,r)
 add(71,r)
 add(51,r)
-print_tree(r)
-
-
-# print(r.val,r.left,r.right)
-# print(r.left.val,r.left.left,r.left.right)
-# print(r.left.left.val,r.left.left.left,r.left.left.right)
-
-print(r)
+# print(r)
+print_tree_2d(r)
 
 

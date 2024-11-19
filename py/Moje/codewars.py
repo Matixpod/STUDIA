@@ -224,3 +224,43 @@ def generate(numRows):
         
 
 generate(5)
+# %%
+
+def decrypt(code, k):
+    code2 = code*2
+    result = []
+    n = len(code)
+    if k == 0:
+        return [0]*n
+    elif k > 0:
+        for i in range(1,n+1):
+            result.append(sum(code2[i:i+k]))
+    else:
+        k = abs(k)
+        for i in range(n):
+            result.append(sum(code2[i+n-k:i+n]))
+    return result
+
+# def decrypt(code, k):
+
+#     n = len(code)
+#     if k == 0:
+#         return [0] * n
+    
+#     result = [0] * n
+#     extended_code = code * 2  # Extend the array to handle circular indexing
+    
+#     if k > 0:
+#         for i in range(n):
+#             result[i] = sum(extended_code[i+1:i+k+1])  # Sum of the next k numbers
+#     else:  # k < 0
+#         k = abs(k)
+#         for i in range(n):
+#             result[i] = sum(extended_code[i+n-k:i+n])  # Sum of the previous k numbers
+    
+#     return result
+
+
+decrypt([5,7,1,4],3)
+
+
