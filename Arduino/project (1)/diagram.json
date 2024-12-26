@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": -9, "left": -19.8, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -80.4, "left": 80.6, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-tm1637-7segment",
+      "id": "sevseg1",
+      "top": 211.16,
+      "left": 26.23,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn1",
+      "top": 276.2,
+      "left": 0,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn2",
+      "top": 209,
+      "left": 0,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn3",
+      "top": 305,
+      "left": 96,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn4",
+      "top": 305,
+      "left": 153.6,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -160.8,
+      "left": 88.2,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn5",
+      "top": 73.4,
+      "left": -105.6,
+      "attrs": { "color": "green" }
+    }
+  ],
+  "connections": [
+    [ "sevseg1:CLK", "uno:2", "green", [ "h0" ] ],
+    [ "sevseg1:DIO", "uno:3", "green", [ "h0" ] ],
+    [ "sevseg1:VCC", "uno:5V", "red", [ "h28.8", "v-19.2" ] ],
+    [ "sevseg1:GND", "uno:GND.2", "black", [ "h0" ] ],
+    [ "btn2:2.r", "uno:4", "green", [ "h0" ] ],
+    [ "btn1:2.r", "uno:5", "green", [ "h0" ] ],
+    [ "btn3:2.r", "uno:6", "green", [ "h0" ] ],
+    [ "btn4:2.r", "uno:7", "green", [ "h0" ] ],
+    [ "btn2:1.l", "uno:GND.1", "black", [ "h-9.6", "v-96" ] ],
+    [ "btn1:1.l", "uno:GND.1", "black", [ "h0" ] ],
+    [ "btn3:1.l", "uno:GND.1", "black", [ "h0" ] ],
+    [ "btn4:1.l", "uno:GND.1", "black", [ "h0" ] ],
+    [ "bz1:2", "uno:8", "green", [ "v0" ] ],
+    [ "bz1:1", "uno:GND.1", "black", [ "v0" ] ],
+    [ "led1:A", "uno:9", "green", [ "v0" ] ],
+    [ "led1:C", "uno:GND.1", "black", [ "v0" ] ],
+    [ "btn5:2.r", "uno:11", "green", [ "h0" ] ],
+    [ "btn5:1.l", "uno:GND.1", "black", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
