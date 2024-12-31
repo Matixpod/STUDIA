@@ -2,15 +2,15 @@
 # %% Zad 1
 def bomb_has_been_planted(m, time):
     k = []
-    for i in range(len(m)):
-        if "CT" in m[i]:
-            ct = [m[i].index("CT"),i]
+    for day in range(len(m)):
+        if "CT" in m[day]:
+            ct = [m[day].index("CT"),day]
 
-        if "B" in m[i]:
-            b = [m[i].index("B"),i]
+        if "B" in m[day]:
+            b = [m[day].index("B"),day]
 
-        if "K" in m[i]:
-            k = [m[i].index("K"),i]
+        if "K" in m[day]:
+            k = [m[day].index("K"),day]
 
     steps_needed = max([abs(ct[0]-b[0]),abs(ct[1]-b[1])])
     if k:
@@ -59,11 +59,11 @@ print(bomb_has_been_planted(map5, 13))
 # %%
 import math
 def judgeSquareSum(c: int) -> bool:
-    for i in range(int(math.sqrt(c+1))):
-        for j in range(i,int(math.sqrt(c))+1):
-            if i**2 + j**2 == c:
+    for day in range(int(math.sqrt(c+1))):
+        for j in range(day,int(math.sqrt(c))+1):
+            if day**2 + j**2 == c:
                 return True       
-            elif len(str(i**2 + j**2)) > len(str(c)):
+            elif len(str(day**2 + j**2)) > len(str(c)):
                 break
 
     return False
@@ -74,8 +74,8 @@ judgeSquareSum(1000000000)
 import math
 
 def judgeSquareSum(c: int) -> bool:
-    for i in range(int(math.isqrt(c)) + 1):
-        reminder = c - i**2
+    for day in range(int(math.isqrt(c)) + 1):
+        reminder = c - day**2
         if is_squere(reminder):
             return True
     return False
@@ -117,12 +117,12 @@ class Solution:
         
         result = 0
         max_payment = 0
-        i = 0
+        day = 0
         
         for worker in workers:
-            while i < len(jobs) and worker >= jobs[i][0]:
-                max_payment = max(max_payment, jobs[i][1])
-                i += 1
+            while day < len(jobs) and worker >= jobs[day][0]:
+                max_payment = max(max_payment, jobs[day][1])
+                day += 1
             result += max_payment
         
 
@@ -147,23 +147,23 @@ def romanToInt(s):
     # result = 0
     # nums = [dic[letter] for letter in s]
     # nums.append(0)
-    # i = 0
-    # while i < len(nums)-1:
-    #     print(nums[i+1] > nums[i])
-    #     if nums[i+1] > nums[i]:
-    #         result += (nums[i+1] - nums[i])
-    #         i+=2
+    # day = 0
+    # while day < len(nums)-1:
+    #     print(nums[day+1] > nums[day])
+    #     if nums[day+1] > nums[day]:
+    #         result += (nums[day+1] - nums[day])
+    #         day+=2
     #     else:
-    #         result += nums[i]
-    #         i+=1
+    #         result += nums[day]
+    #         day+=1
     # return result
 
     ans = 0
-    for i in range(len(s)):
-        if i < len(s) - 1 and dic[s[i]] < dic[s[i+1]]:
-            ans -= dic[s[i]]
+    for day in range(len(s)):
+        if day < len(s) - 1 and dic[s[day]] < dic[s[day+1]]:
+            ans -= dic[s[day]]
         else:
-            ans += dic[s[i]]
+            ans += dic[s[day]]
     return ans
 
 
@@ -179,12 +179,12 @@ def isValid(s):
     }
 
     looking_for = []
-    for i in s:
-        if i in dic:
-            looking_for.append(dic[i])
-        elif i in [dic["("], dic["["], dic["{"]] and not looking_for:
+    for day in s:
+        if day in dic:
+            looking_for.append(dic[day])
+        elif day in [dic["("], dic["["], dic["{"]] and not looking_for:
             return False
-        elif i == looking_for[-1]:
+        elif day == looking_for[-1]:
             looking_for.pop()
         else:
             return False
@@ -198,9 +198,9 @@ isValid("(){}}{")
 
 def removeElement(nums, val):
     k = 0
-    for i in range(len(nums)):
-        if nums[i] != val:
-            nums[k] = nums[i]
+    for day in range(len(nums)):
+        if nums[day] != val:
+            nums[k] = nums[day]
             k += 1
 
     print(k)
@@ -212,8 +212,8 @@ removeElement([0,1,2,2,3,0,4,2],2)
 def generate(numRows):
     x = 1
     result = []
-    for i in range(1,numRows+1):
-        result.append([x]*i)
+    for day in range(1,numRows+1):
+        result.append([x]*day)
         if len(result) > 2:
             for j in range(1,len(result) - 1):
                 result[-1][j] = result[-2][j-1] + result[-2][j]
@@ -233,12 +233,12 @@ def decrypt(code, k):
     if k == 0:
         return [0]*n
     elif k > 0:
-        for i in range(1,n+1):
-            result.append(sum(code2[i:i+k]))
+        for day in range(1,n+1):
+            result.append(sum(code2[day:day+k]))
     else:
         k = abs(k)
-        for i in range(n):
-            result.append(sum(code2[i+n-k:i+n]))
+        for day in range(n):
+            result.append(sum(code2[day+n-k:day+n]))
     return result
 
 # def decrypt(code, k):
@@ -251,12 +251,12 @@ def decrypt(code, k):
 #     extended_code = code * 2  # Extend the array to handle circular indexing
     
 #     if k > 0:
-#         for i in range(n):
-#             result[i] = sum(extended_code[i+1:i+k+1])  # Sum of the next k numbers
+#         for day in range(n):
+#             result[day] = sum(extended_code[day+1:day+k+1])  # Sum of the next k numbers
 #     else:  # k < 0
 #         k = abs(k)
-#         for i in range(n):
-#             result[i] = sum(extended_code[i+n-k:i+n])  # Sum of the previous k numbers
+#         for day in range(n):
+#             result[day] = sum(extended_code[day+n-k:day+n])  # Sum of the previous k numbers
     
 #     return result
 
@@ -269,9 +269,9 @@ decrypt([5,7,1,4],3)
 # def maximumSubarraySum(nums, k):
 #     n = len(nums)
 #     result = 0
-#     for i in range(n-k+1):
-#         if len(set(nums[i:i+k])) == k:
-#             curr = sum(nums[i:i+k])
+#     for day in range(n-k+1):
+#         if len(set(nums[day:day+k])) == k:
+#             curr = sum(nums[day:day+k])
 #             if curr > result:
 #                 result = curr
 #     return result
@@ -287,9 +287,9 @@ decrypt([5,7,1,4],3)
 #     total = sum(nums[:k])
 #     max_total = total if len(set(nums[:k])) == k else 0
 
-#     for i in range(k,n):
-#         total += nums[i] - nums[i - k]
-#         if len(set(nums[i-k+1:i+1])) == k:
+#     for day in range(k,n):
+#         total += nums[day] - nums[day - k]
+#         if len(set(nums[day-k+1:day+1])) == k:
 #             max_total = max(max_total, total)
 #     return max_total
 
@@ -305,22 +305,22 @@ def maximumSubarraySum(nums, k):
     total = 0
     max_total = 0
 
-    for i in range(k):
-        total += nums[i]
-        freq[nums[i]] = freq.get(nums[i],0) + 1
+    for day in range(k):
+        total += nums[day]
+        freq[nums[day]] = freq.get(nums[day],0) + 1
 
     if len(freq) == k:
         max_total = total
 
-    for i in range(k,n):
-        total -= nums[i-k]
-        if freq[nums[i-k]] == 1:
-            del freq[nums[i-k]]
+    for day in range(k,n):
+        total -= nums[day-k]
+        if freq[nums[day-k]] == 1:
+            del freq[nums[day-k]]
         else:
-            freq[nums[i-k]] -= 1
+            freq[nums[day-k]] -= 1
             
-        total += nums[i]
-        freq[nums[i]] = freq.get(nums[i],0) + 1
+        total += nums[day]
+        freq[nums[day]] = freq.get(nums[day],0) + 1
 
         if len(freq) == k:
             max_total = max(max_total,total)
@@ -381,9 +381,9 @@ def findChampion(n, edges):
     for win,lose in edges:
         defeat_to[lose].append(win)
 
-    for i in range(n):
-        if defeat_to[i] != []:
-            del defeat_to[i]
+    for day in range(n):
+        if defeat_to[day] != []:
+            del defeat_to[day]
 
     if len(defeat_to) != 1:
         return -1
@@ -554,7 +554,7 @@ def validArrangement(pairs):
         path.append(stack.pop())
 
     path.reverse()
-    result = [[path[i], path[i+1]] for i in range(len(path)-1) ]
+    result = [[path[day], path[day+1]] for day in range(len(path)-1) ]
 
     return result
 
@@ -564,7 +564,7 @@ validArrangement([[1,3],[1,2],[2,1]])
 
 # %% 
 def checkIfExist(arr):
-    dict = {num:(i,num/2) for i,num in enumerate(arr)}
+    dict = {num:(day,num/2) for day,num in enumerate(arr)}
     for num,target in dict.items():
         index,target = target
         if target in (arr[:index] + arr[index+1:]):
@@ -581,22 +581,22 @@ checkIfExist([15,7,-17,3,15,12])
 
 def isPrefixOfWord(sentence, searchWord):
     sentence = sentence.split(" ")
-    for i,word in enumerate(sentence):
+    for day,word in enumerate(sentence):
         if searchWord in word and word.index(searchWord) == 0:
-            return i+1
+            return day+1
     return -1
 
 
-isPrefixOfWord("i love eating burger","burg")
+isPrefixOfWord("day love eating burger","burg")
 
 # %%
 from collections import deque
 # def addSpaces(s, spaces):
 #     result = []
 #     spaces = deque(spaces)
-#     i = 0
+#     day = 0
 #     for j,letter in enumerate(s):
-#         if spaces and j == spaces[0] + i:
+#         if spaces and j == spaces[0] + day:
 #             result.append(' ')
 #             spaces.popleft()
 #         result.append(letter)
@@ -625,16 +625,16 @@ addSpaces("LeetcodeHelpsMeLearn",[8,13,15])
 def canMakeSubsequence(str1, str2):
     n = len(str1)
     m = len(str2)
-    i = 0
+    day = 0
     j = 0
 
-    while i < n and j < m:
-        if str1[i] == str2[j]:
+    while day < n and j < m:
+        if str1[day] == str2[j]:
             j += 1
-        elif chr((ord(str1[i]) - ord('a') + 1) % 26 + ord('a')) == str2[j]:
+        elif chr((ord(str1[day]) - ord('a') + 1) % 26 + ord('a')) == str2[j]:
             j += 1
 
-        i += 1
+        day += 1
     return j == m
         
 
@@ -658,11 +658,11 @@ pickGifts([25,64,9,4,100],4)
 
 def findScore(nums):
     result = 0
-    dic = {i:num for i,num in enumerate(nums)}
+    dic = {day:num for day,num in enumerate(nums)}
     while dic:
-        i = min(dic,key=dic.get)
-        result += dic[i]
-        for neighbor in [i-1,i,i+1]:
+        day = min(dic,key=dic.get)
+        result += dic[day]
+        for neighbor in [day-1,day,day+1]:
             if neighbor in dic:
                 del dic[neighbor]
 
@@ -672,16 +672,16 @@ def findScore(nums):
 import heapq
 def findScore(nums):
     result = 0
-    heap = [[num, i] for i,num in enumerate(nums)]
+    heap = [[num, day] for day,num in enumerate(nums)]
     heapq.heapify(heap)
     processed = set()
     while heap:
-        num,i = heapq.heappop(heap)
-        if i in processed:
+        num,day = heapq.heappop(heap)
+        if day in processed:
             continue
         result += num
-        processed.add(i)
-        for neighbor in [i-1,i+1]:
+        processed.add(day)
+        for neighbor in [day-1,day+1]:
             processed.add(neighbor)
     return result
 
@@ -695,12 +695,12 @@ findScore([2,1,3,4,5,2])
 
 import heapq
 def getFinalState(nums, k, multiplier):
-    heap = [[num, i] for i,num in enumerate(nums)]
+    heap = [[num, day] for day,num in enumerate(nums)]
     heapq.heapify(heap)
-    for i in range(k):
-        current_min,i = heapq.heappop(heap)
-        nums[i] = current_min*multiplier
-        heapq.heappush(heap,[nums[i],i])
+    for day in range(k):
+        current_min,day = heapq.heappop(heap)
+        nums[day] = current_min*multiplier
+        heapq.heappush(heap,[nums[day],day])
 
     return nums
 
@@ -713,14 +713,12 @@ getFinalState([1,2],3,4)
 # %%
 def finalPrices(prices):
     prices2 = prices[:]
-    for i in range(0,len(prices)):
-        for j in range(i+1,len(prices)):
-            if prices[j] <= prices[i]:
-                prices2[i] = prices[i] - prices[j]
+    for day in range(0,len(prices)):
+        for j in range(day+1,len(prices)):
+            if prices[j] <= prices[day]:
+                prices2[day] = prices[day] - prices[j]
                 break
     return prices2
-
-
 
         
 finalPrices([10,1,1,6])
@@ -751,21 +749,88 @@ print(user1['name'])
 
 def findTargetSumWays(nums, target):
     memo = {}
-    def recursion(i, current_sum):
-        if (i, current_sum) in memo:
-            return memo[(i, current_sum)]
+    def recursion(day, current_sum):
+        if (day, current_sum) in memo:
+            return memo[(day, current_sum)]
 
-        if i == len(nums):
+        if day == len(nums):
             return 1 if current_sum == target else 0
         
-        positive = recursion(i + 1, current_sum + nums[i])
-        negative = recursion(i + 1, current_sum - nums[i])
+        positive = recursion(day + 1, current_sum + nums[day])
+        negative = recursion(day + 1, current_sum - nums[day])
 
-        memo[(i, current_sum)] = positive + negative
+        memo[(day, current_sum)] = positive + negative
         
-        return memo[(i, current_sum)]
+        return memo[(day, current_sum)]
     
     return recursion(0, 0)  
 
 
-print(findTargetSumWays([1,1,1,1,1],3))
+findTargetSumWays([1,1,1,1,1],3)
+
+# %%
+
+def maxScoreSightseeingPair(values):
+    result = 0
+    for day,val_i in enumerate(values):
+        j = day + 1
+        while j < len(values):
+            if day < j:
+                result = max(result,val_i + values[j] + day - j)
+            j += 1
+    return result
+
+
+def maxScoreSightseeingPair(values):
+    max_score = 0
+    max_val_plus_i = values[0] + 0
+
+    for j in range(1, len(values)):
+        max_score = max(max_score, max_val_plus_i + values[j] - j)
+        max_val_plus_i = max(max_val_plus_i, values[j] + j)
+
+    return max_score
+
+# maxScoreSightseeingPair([8,1,5,2,6])
+
+# %%
+def mincostTickets(days, costs):
+    dp = [0] * (days[-1] + 1)
+    for day in range(days[-1]+1):
+        if day not in days:
+            dp[day] = dp[day-1]
+        else:
+            dp[day] = min(
+                dp[day-1] + costs[0],
+                dp[max(0,day - 7)] + costs[1],
+                dp[max(0,day - 30)] + costs[2]
+            )
+    return dp[-1]
+
+
+from collections import deque
+# def mincostTickets(days, costs):
+#     last7 = deque()
+#     last30 = deque()
+#     total_cost = 0
+
+#     for day in days:
+#         while last7 and last7[0][0] + 7 <= day:
+#             last7.popleft()
+#         while last30 and last30[0][0] + 30 <= day:
+#             last30.popleft()
+
+#         cost1 = total_cost + costs[0]
+#         cost7 = (last7[-1][1] if last7 else 0) + costs[1]
+#         cost30 = (last30[-1][1] if last30 else 0) + costs[2]
+
+#         total_cost = min(cost1,cost7,cost30)
+
+#         last7.append((day,total_cost))
+#         last30.append((day,total_cost))
+
+#     return total_cost
+
+    
+
+mincostTickets([1,4,6,7,8,20],[2,7,15])
