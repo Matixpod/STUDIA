@@ -563,11 +563,11 @@ validArrangement([[1,3],[1,2],[2,1]])
 # validArrangement([[1,3],[3,2],[2,1]])
 
 # %% 
-def checkIfExist(arr):
-    dict = {num:(day,num/2) for day,num in enumerate(arr)}
+def checkIfExist(s):
+    dict = {num:(day,num/2) for day,num in enumerate(s)}
     for num,target in dict.items():
         index,target = target
-        if target in (arr[:index] + arr[index+1:]):
+        if target in (s[:index] + s[index+1:]):
             return True
     return False
 
@@ -808,7 +808,7 @@ def mincostTickets(days, costs):
     return dp[-1]
 
 
-from collections import deque
+# from collections import deque
 # def mincostTickets(days, costs):
 #     last7 = deque()
 #     last30 = deque()
@@ -834,3 +834,125 @@ from collections import deque
     
 
 mincostTickets([1,4,6,7,8,20],[2,7,15])
+# %%
+def waysToSplitArray(nums):
+    result = 0
+    left = nums[0]
+    right = sum(nums) - left
+
+    for i in range(1,len(nums)):
+        if left >= right:
+            result += 1
+        left += nums[i]
+        right -= nums[i]
+
+    return result
+
+
+waysToSplitArray([10,4,-8,7])
+
+
+# %%
+
+from collections import deque
+
+def coinChange(coins, amount):
+    queue = deque([(0,0)])
+    visited = set()
+    while queue:
+        current_count, current_amount = queue.popleft()
+        if current_amount == amount:
+            return current_count
+        for coin in coins:
+            next_coin = current_amount + coin
+            if next_coin <= amount and next_coin not in visited:
+                queue.append((current_count + 1,current_amount + coin))
+                visited.add(next_coin)
+    return -1
+
+
+coinChange([1,2,5],100)
+
+# %%
+def countPalindromicSubsequence(s):
+    visited = {}
+    result = set()
+    for i in range(len(s)):
+        left = s[i]
+        if left in visited:
+            continue
+        visited[left] = True
+        for j in range(len(s)-1,i,-1):
+            right = s[j]
+            if left == right:
+                for k in range(i+1,j):
+                    result.add(left+s[k]+right)
+    return len(result)
+
+
+
+def countPalindromicSubsequence(s):
+    result = set()
+    left_indices = {}
+    right_indices = {}
+
+    for i, char in enumerate(s):
+        if char not in left_indices:
+            left_indices[char] = i
+        right_indices[char] = i
+
+    for char in left_indices:
+        left = left_indices[char]
+        right = right_indices[char]
+        if right - left > 1:
+            for k in range(left + 1, right):
+                result.add((char, s[k], char))
+
+    return len(result)
+
+
+
+
+countPalindromicSubsequence("bbcbaba")
+
+# %%
+
+def stringMatching(words):
+    result = []
+    for i in range(len(words)):
+        for j in range(len(words)):
+            if i != j and words[i] in words[j]:
+                result.append(words[i])
+    return list(set(result))
+
+
+stringMatching(["leetcoder","leetcode","od","hamlet","am"])
+
+# %%%
+def countPrefixSuffixPairs(words):
+    global result
+    result = 0
+
+    def isPrefixAndSuffix(str1, str2):
+        n = len(str1)
+        if str1 == str2[:n] and str1 == str2[-n:]:
+            global result
+            result += 1
+
+    for i in range(len(words)):
+        for j in range(i+1,len(words)):
+            isPrefixAndSuffix(words[i],words[j])
+    return result
+
+
+countPrefixSuffixPairs(["a","aba","ababa","aa"])
+
+
+# %%
+
+
+def ascii_to_letters(ascii_codes):
+    letters = [chr(code) for code in ascii_codes]
+    return letters
+
+print("".join(ascii_to_letters([78,73,71,71,69,82])))
