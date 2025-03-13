@@ -1,5 +1,6 @@
 import csv
 import sys
+from collections import deque
 
 from util import Node, StackFrontier, QueueFrontier
 
@@ -56,12 +57,13 @@ def main():
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
     directory = sys.argv[1] if len(sys.argv) == 2 else "large"
-    print(directory)
 
     # Load data from files into memory
     print("Loading data...")
     load_data(directory)
     print("Data loaded.")
+
+
 
     source = person_id_for_name(input("Name: "))
     if source is None:
@@ -92,9 +94,41 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
+    start = Node(person_id=source, parent=None, movie_id=None)
+    queue = deque([start])
+    # Zbiór odwiedzonych osób
+    visited = set()
 
-    # TODO
-    raise NotImplementedError
+    while queue:
+        # print(queue)
+        node = queue.popleft()
+        # Jeśli dotarliśmy do celu, odtwarzamy ścieżkę
+        if node.person_id == target:
+            path = []
+            while node.parent is not None:
+                path.append((node.movie_id, node.person_id))
+                node = node.parent
+            path.reverse()
+            return path  # Zwracamy listę par (movie_id, person_id)
+        
+        # Jeśli jeszcze nie odwiedziliśmy tej osoby
+        if node.person_id not in visited:
+            visited.add(node.person_id)
+            # Przeglądamy wszystkie filmy, w których wystąpiła ta osoba
+            for movie_id in people[node.person_id]['movies']:
+                # Przeglądamy wszystkich aktorów w tym filmie
+                for person_id in movies[movie_id]['stars']:
+                    if person_id not in visited:
+                        queue.append(Node(person_id=person_id, parent=node, movie_id=movie_id))
+
+    return None
+
+
+        
+
+
+
+    
 
 
 def person_id_for_name(name):
