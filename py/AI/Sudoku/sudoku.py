@@ -5,6 +5,7 @@ from collections import deque
 from tabulate import tabulate
 import time
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
 grid = np.array([
@@ -25,8 +26,7 @@ grid = np.array([
 class Sudoku:
     def __init__(self, state):
         self.state = state
-        self.next_empty = self.find_next_empty()
-        self.best_empty = self.find_best_next_empty()
+        self.possibilities_cache = {}
 
     
     def find_next_empty(self):
@@ -36,7 +36,7 @@ class Sudoku:
                     return (i, j)
         return None
 
-    def find_best_next_empty(self):
+    def find_best_empty(self):
         min_possibilities = 10
         best_position = None
         for i in range(9):
@@ -48,6 +48,9 @@ class Sudoku:
                     min_possibilities = len(possibilities)
                     best_position = (i,j)
         return best_position
+    
+    def is_solved(self):
+        return self.find_next_empty() is None
 
 
 
@@ -66,8 +69,16 @@ class Sudoku:
         return set(self.state[start_row:start_row+3, start_col:start_col+3].flatten())
     
     def check_possible_nums_at(self,i,j):
+        state_hash = self.state.tobytes()
+        cache_key = (i, j, state_hash)
+
+        if cache_key in self.possibilities_cache:
+            return self.possibilities_cache[cache_key]
+    
         used_nums = self.check_row(i) | self.check_col(j) | self.check_square(i,j)
-        return [i for i in range(1,10) if i not in used_nums]
+        possibilities =  [i for i in range(1,10) if i not in used_nums]
+        self.possibilities_cache[cache_key] = possibilities
+        return possibilities
     
 
 
@@ -83,78 +94,116 @@ class Sudoku:
         return total_possibilities
     
     def heuristic_3(self):
-        min_possibilities = float('inf') 
-        for i in range(9):
-            for j in range(9):
-                if self.state[i, j] == 0:
-                    possibilities = len(self.check_possible_nums_at(i, j))
-                    min_possibilities = min(min_possibilities, possibilities)
-        return min_possibilities if min_possibilities != float('inf') else 0
+        pos = self.find_best_empty()
+        if not pos:
+            return 0
+        i,j = pos
+        possible_nums = self.check_possible_nums_at(i,j)
+        if not possible_nums:
+            return float('inf')
+        
+        min_constraint = float('inf')
 
+        for v in possible_nums:
+            constraint_count = 0
+            for x in range(9):
+                if self.state[i,x] == 0 and v in self.check_possible_nums_at(i,x) and x != j:
+                    constraint_count += 1
+                if self.state[x,j] == 0 and v in self.check_possible_nums_at(x,j) and x != i:
+                    constraint_count += 1
 
+            start_row, start_col = (i // 3) * 3, (j // 3) * 3
+            for r in range(start_row, start_row + 3):
+                for c in range(start_col, start_col +3):
+                    if self.state[r,c] == 0 and (r,c) != (i,j) and v in self.check_possible_nums_at(r,c):
+                        constraint_count += 1
+            if constraint_count < min_constraint:
+                min_constraint = constraint_count
+        return min_constraint
+                
 
     
+
+def generate_childs(sudoku, pos, possibilities):
+    childs = []
+    i, j = pos
+    for num in possibilities:
+        new_state = sudoku.state.copy()
+        new_state[i, j] = num
+        childs.append(Sudoku(new_state))
+    return childs
 
 
 def dfs(sudoku):
     start_time = time.time()
-    open_count = 0
+    open_count = 1
+    closed_count = 0
     open_stack = deque([sudoku])
     closed_set = set()
+
     while open_stack:
         curr_sudoku = open_stack.pop()
         state_id = curr_sudoku.state.tobytes()
+
         if state_id in closed_set:
             continue
+
         closed_set.add(state_id)
-        if curr_sudoku.next_empty is None:
-            end_time = time.time()
-            return curr_sudoku.state, len(closed_set), open_count, end_time - start_time
+        closed_count += 1
 
-        i,j = curr_sudoku.next_empty
-        possibilities = curr_sudoku.check_possible_nums_at(i,j)
+        if curr_sudoku.is_solved():
+            # print("Rozwiązanie znalezione!")
+            # print(curr_sudoku)
+            return curr_sudoku.state, closed_count, open_count, time.time() - start_time
+        
+        pos = curr_sudoku.find_best_empty()
+        possibilities = curr_sudoku.check_possible_nums_at(pos[0],pos[1])
 
-        new_state = curr_sudoku.state.copy()
-        for num in possibilities:
-            new_state[i,j] = num
-            open_stack.append(Sudoku(new_state))
+        childs = generate_childs(curr_sudoku, pos, possibilities)
+        for child in childs:
+            open_stack.append(child)
             open_count += 1
-            new_state[i,j] = 0
-    return None, len(closed_set), open_count, time.time() - start_time
+
+    return None, closed_count, open_count, time.time() - start_time
     
 
-def bestFS(sudoku,heuristic_func):
+def bestFS(sudoku, heuristic_func):
     start_time = time.time()
-    open_count = 0
+    open_count = 1
+    closed_count = 0
     open_pq = []
     closed_set = set()
     counter = count()
-    heapq.heappush(open_pq,(heuristic_func(sudoku),next(counter),sudoku))
+    heapq.heappush(open_pq, (heuristic_func(sudoku), next(counter), sudoku))
+    
     while open_pq:
-        _,_,curr_sudoku = heapq.heappop(open_pq)
+        _, _, curr_sudoku = heapq.heappop(open_pq)
         state_id = curr_sudoku.state.tobytes()
         if state_id in closed_set:
             continue
         closed_set.add(state_id)
+        closed_count += 1
 
-        if curr_sudoku.best_empty is None:
-            end_time = time.time()
-            return curr_sudoku.state, len(closed_set), open_count, end_time - start_time
+        if curr_sudoku.is_solved():
+            # print("Rozwiązanie znalezione!")
+            # print(curr_sudoku)
+            return curr_sudoku.state, closed_count, open_count, time.time() - start_time
 
-        i,j = curr_sudoku.best_empty
-        possibilities = curr_sudoku.check_possible_nums_at(i,j)
+        pos = curr_sudoku.find_best_empty()
+        possibilities = curr_sudoku.check_possible_nums_at(pos[0], pos[1])
 
-        new_state = curr_sudoku.state.copy()
-        for num in possibilities:
-            new_state[i,j] = num
-            new_sudoku = Sudoku(new_state)
-            heapq.heappush(open_pq,(heuristic_func(new_sudoku),next(counter),new_sudoku))
-            open_count += 1
-            new_state[i,j] = 0
+        childs = generate_childs(curr_sudoku, pos, possibilities)
+        for child in childs:
+            if child.is_solved():
+                # print("Rozwiązanie znalezione!")
+                # print(child)
+                return child.state, closed_count, open_count, time.time() - start_time
+            else:
+                priority = heuristic_func(child)
+                heapq.heappush(open_pq, (priority, next(counter), child))
+                open_count += 1
 
-    return None, len(closed_set), open_count, time.time() - start_time
-
-
+    return None, closed_count, open_count, time.time() - start_time
 
 def load_data(filename):
     sudoku_dict = {}
@@ -181,7 +230,7 @@ def main():
     bestfs_stats_3 = {'closed': [], 'open': [], 'time': []}
 
 
-    for id,grid in data.items():
+    for id, grid in tqdm(data.items(), total=len(data), desc="Przetwarzanie tablic Sudoku"):
         sudoku = Sudoku(grid.copy())
         _, closed, open, time = dfs(sudoku)
         dfs_stats['closed'].append(closed)
@@ -210,12 +259,42 @@ def main():
 
     
 
-    print(f"DFS: \n -> {sum(dfs_stats['closed'])} closed \n -> {sum(dfs_stats['open'])} open \n -> {sum(dfs_stats['time']):.3f}s")
-    print(f"BestFS (least numbers of empty cells): \n -> {sum(bestfs_stats_1['closed'])} closed \n -> {sum(bestfs_stats_1['open'])} open \n -> {sum(bestfs_stats_1['time']):.3f}s")
-    print(f"BestFS (Max possibilities): \n -> {sum(bestfs_stats_2['closed'])} closed \n -> {sum(bestfs_stats_2['open'])} open \n -> {sum(bestfs_stats_2['time']):.3f}s")
-    print(f"BestFS (Least possibilities): \n -> {sum(bestfs_stats_3['closed'])} closed \n -> {sum(bestfs_stats_3['open'])} open \n -> {sum(bestfs_stats_3['time']):.3f}s")
+    print(f"DFS: \n -> {sum(dfs_stats['closed'])} closed \n -> {sum(dfs_stats['open'])} open \n -> {sum(dfs_stats['time']):.4f}s")
+    print(f"BestFS (least numbers of empty cells): \n -> {sum(bestfs_stats_1['closed'])} closed \n -> {sum(bestfs_stats_1['open'])} open \n -> {sum(bestfs_stats_1['time']):.4f}s")
+    print(f"BestFS (Max possibilities): \n -> {sum(bestfs_stats_2['closed'])} closed \n -> {sum(bestfs_stats_2['open'])} open \n -> {sum(bestfs_stats_2['time']):.4f}s")
+    print(f"BestFS (Least Constraing value): \n -> {sum(bestfs_stats_3['closed'])} closed \n -> {sum(bestfs_stats_3['open'])} open \n -> {sum(bestfs_stats_3['time']):.4f}s")
 
 
+
+    algorithms = ['DFS', 'BestFS (H1)', 'BestFS (H2)', 'BestFS (H3)']
+    closed_data = [dfs_stats['closed'], bestfs_stats_1['closed'], bestfs_stats_2['closed'], bestfs_stats_3['closed']]
+    open_data = [dfs_stats['open'], bestfs_stats_1['open'], bestfs_stats_2['open'], bestfs_stats_3['open']]
+    time_data = [dfs_stats['time'], bestfs_stats_1['time'], bestfs_stats_2['time'], bestfs_stats_3['time']]
+
+    # Tworzenie wykresów pudełkowych
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 6))
+
+    # Wykres dla Closed
+    ax1.boxplot(closed_data, labels=algorithms)
+    ax1.set_title('Liczba stanów w Closed')
+    ax1.set_ylabel('Liczba stanów')
+    ax1.tick_params(axis='x', rotation=45)
+
+    # Wykres dla Open
+    ax2.boxplot(open_data, labels=algorithms)
+    ax2.set_title('Liczba stanów w Open')
+    ax2.set_ylabel('Liczba stanów')
+    ax2.tick_params(axis='x', rotation=45)
+
+    # Wykres dla czasu wykonania
+    ax3.boxplot(time_data, labels=algorithms)
+    ax3.set_title('Czas wykonania (s)')
+    ax3.set_ylabel('Czas (s)')
+    ax3.tick_params(axis='x', rotation=45)
+
+    # Dopasowanie układu i wyświetlenie
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     main()
