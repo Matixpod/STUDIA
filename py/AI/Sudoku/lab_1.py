@@ -1,3 +1,21 @@
+# Mateusz Podporski, nr. alb. 152774
+# Odpowiedzi na pytania
+# 1. Jak się różni liczba stanów w zbiorach Closed i Open dla badanych algorytmów?
+#       DFS ma znacznie więcej stanów w obu zbiorach (Closed: 740356, Open: 741009) niż BestFS (Closed: 8047–9363, Open: 8124–10252), co wynika z przeszukiwania w głąb bez heurystyk.
+
+# 2. Co wpływa na rozmiar każdego ze zbiorów Closed i Open?
+#       Rozmiar zależy od strategii przeszukiwania: DFS generuje wiele stanów przez eksplorację w głąb, BestFS ogranicza je dzięki heurystykom (np. liczba pustych komórek, możliwości, ograniczenia).
+
+# 3. Który algorytm daje najlepsze wyniki? Dlaczego?
+#       BestFS (least numbers of empty cells) jest najlepszy (5.6817s, 8405 Closed, 8503 Open), bo heurystyka minimalizująca puste komórki skutecznie redukuje przestrzeń poszukiwań i czas.
+
+# Wnioski:
+
+# Algorytmy BestFS przewyższają DFS pod względem efektywności dzięki zastosowaniu heurystyk,
+# które kierują przeszukiwanie w stronę rozwiązania, minimalizując liczbę analizowanych stanów i czas wykonania. DFS, choć prosty,
+# jest mniej efektywny w problemach takich jak Sudoku ze względu na brak optymalizacji.
+# Najlepsza heurystyka (least numbers of empty cells) łączy szybkość z niskim zużyciem zasobów, co czyni ją optymalnym wyborem.
+
 from itertools import count
 import numpy as np
 import heapq
@@ -156,7 +174,7 @@ def dfs(sudoku):
             # print(curr_sudoku)
             return curr_sudoku.state, closed_count, open_count, time.time() - start_time
         
-        pos = curr_sudoku.find_best_empty()
+        pos = curr_sudoku.find_next_empty()
         possibilities = curr_sudoku.check_possible_nums_at(pos[0],pos[1])
 
         childs = generate_childs(curr_sudoku, pos, possibilities)
