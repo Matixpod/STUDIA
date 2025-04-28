@@ -1,0 +1,24 @@
+.categoryCard {
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.2s;
+}
+
+.categoryCard:hover {
+  transform: translateY(-4px);
+}
+
+.categoryTitle {
+  color: #1e293b;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.categoryDescription {
+  color: #64748b;
+  font-size: 14px;
+}
