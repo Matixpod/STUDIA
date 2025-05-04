@@ -74,12 +74,20 @@ analyze_decision_tree(
     class_names = classes
 )
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+# Wnioski:
+# 1. Drzewa decyzyjne bardzo dobrze dopasowują się do danych uczących, jednak przy zbyt dużej głębokości model może się przeuczyć, co widać po spadku dokładności na zbiorze testowym.
+# 2. Zarówno dla zbioru Iris, jak i Zoo, dokładność na zbiorze uczącym bardzo szybko osiąga maksimum, podczas gdy optymalna głębokość drzewa dla wysokiej dokładności na danych testowych jest zazwyczaj niższa.
+# 3. Ograniczanie maksymalnej głębokości drzewa pozwala uzyskać lepszą generalizację modelu i uniknąć przeuczenia.
+# 4. Wybór odpowiedniej głębokości drzewa powinien być oparty na obserwacji wyników na zbiorze testowym, a nie tylko na danych uczących.
+# 5. Wizualizacja drzewa pozwala intuicyjnie zrozumieć, w jaki sposób model podejmuje decyzje i które cechy są dla niego najważniejsze.
+
+
+
+
+
+
+
+
+
+
