@@ -64,8 +64,10 @@ analyze_decision_tree(
     
 df = pd.read_csv('zoo.csv')
 X_zoo = df.drop(['animal_name', 'class_type'], axis=1).values
+
 classes = ['Mammal', 'Bird', 'Reptile', 'Fish', 'Amphibian', 'Bug', 'Invertebrate']
 y_zoo = np.array([classes[i - 1] for i in df['class_type']])
+print(y_zoo)
 
 analyze_decision_tree(
     X = X_zoo,
