@@ -1,13 +1,60 @@
 import pytest
 
+# Zadanie 1 
+# Testowanie guens_number.py
+# 1. OK
+# 2. OK
+# 3. OK
+# 4. OK
+# 5. OK
+# 6. OK
+# 7. OK
+# 8. Brak komunikatu o błędzie (należy dodać ewentualność)
+# 9. OK
+# 10. Nie można podac przedzialu zaczynajacego sie nie od 0 ponieważ uzytkownik moze podac jedynie górną granice.
+# 11. Brak komunikatu o błędzie (należy dodać ewentualność)
+
+
+# Zadanie 2
+# Testowanie passwgen.py
+# 1. OK
+# 2. OK
+# 3. OK
+# 4. OK
+# 5. OK
+# 6. OK
+# 7. OK
+# 8. OK
+# 9. Program nie obsługuje błędnych danych wejściowych (np. ujemnej długości hasła, niepoprawnych znaków) nie prosi o podanie prawidłowych.
+# 10. Program ignoruje błędne znaki wejściowe przy pytaniach i kontynuuje działanie z domyślną wartością "nie".
+
+# Zadanie 3
 def combine_strings(str1,str2):
     return str1 + str2
 
+def test_combine_strings():
+    assert combine_strings("Hello", "World") == "HelloWorld"
+    assert combine_strings("Python", "0Programming") == "Python0Programming"
+    assert combine_strings("", "") == ""
+    assert combine_strings("Test", "") == "Test"
+    assert combine_strings("", "Test") == "Test"
+    
+
+# Zadanie 4
 def max_out_of_3(a, b, c):
-    if all(isinstance(i, str) for i in [a, b, c]):
+    if any(not isinstance(i, (int, float)) for i in [a, b, c]):
         return "All inputs must be numbers"
     return max(a, b, c)
 
+def test_max_out_of_3():
+    assert max_out_of_3(1, 2, 3) == 3
+    assert max_out_of_3(5, 5, 5) == 5
+    assert max_out_of_3(-1, -2, -3) == -1
+    assert max_out_of_3('a', 1, 'c') == "All inputs must be numbers"
+    assert max_out_of_3(10, 20, 30) == 30
+    
+
+# Zadanie 5
 def all_even(numbers):
     """
     Check if all numbers in the list are even.
@@ -25,16 +72,12 @@ def all_even(numbers):
     True
     >>> all_even([-2, -4, -6])
     True
-    >>> all_even([a, b, c])
-    False
+    >>> all_even([0,0,0])
+    True
     """
-    if not all(isinstance(num, (int)) for num in numbers):
-        return False
-    
-    # ! Poprawic
     return all(num % 2 == 0 for num in numbers)
 
-
+# Zadanie 6
 def x_count_in_list(x,arr):
     """Count occurrences of x in arr.
 
@@ -50,7 +93,7 @@ def x_count_in_list(x,arr):
     >>> x_count_in_list(2, [1, 2, 3, 4])
     1
     >>> x_count_in_list('a', ['a', 1, 'b', 1])
-    False
+    1
     >>> x_count_in_list(-1, [1, 1, 1])
     0
     >>> x_count_in_list('a', [])
@@ -58,6 +101,8 @@ def x_count_in_list(x,arr):
     """
     return arr.count(x)
 
+
+# Zadanie 7
 def nth_fibonacci(n):
     """Calculate the nth Fibonacci number.
 
@@ -92,39 +137,33 @@ def nth_fibonacci(n):
             a, b = b, a + b
         return b
 
-# def is_prime(n):
-    """Check if a number is prime.
-    
 
+# Zadanie 8
+def is_prime(n):
+    """Check if a number is prime.
     Args:
         n (int): Number to check if it is prime.
-    
     Returns:
         bool: True if n is prime, False otherwise.
+        
+    >>> is_prime(0)
+    False
+    >>> is_prime(3)
+    True
+    >>> is_prime(4)
+    False
+    >>> is_prime(-1)
+    False
+    >>> is_prime(97)
+    True
     """
-    # if n > 1:
-    #     for i in range(2,)
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
 
-def test_combine_strings():
-    assert combine_strings("Hello", "World") == "HelloWorld"
-    assert combine_strings("Python", "0Programming") == "Python0Programming"
-    assert combine_strings("", "") == ""
-    assert combine_strings("Test", "") == "Test"
-    assert combine_strings("", "Test") == "Test"
-    
-    
-    
-def test_max_out_of_3():
-    assert max_out_of_3(1, 2, 3) == 3
-    assert max_out_of_3(5, 5, 5) == 5
-    assert max_out_of_3(-1, -2, -3) == -1
-    assert max_out_of_3('a', 'v', 'c') == "All inputs must be numbers"
-    assert max_out_of_3(10, 20, 30) == 30
-    
-
-    
-    
-    
     
 # python -m pytest 152774_lab2.py
 # python -m doctest -v 152774_lab2.py
