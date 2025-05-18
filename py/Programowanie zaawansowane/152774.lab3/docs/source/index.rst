@@ -19,3 +19,12 @@ documentation for details.
    modules
    README
 
+Screenshot
+==========
+
+Poniżej znajduje się zrzut dokumentacji:
+
+.. image:: img_html.jpg
+   :alt: Zrzut ekranu index.html
+   :align: center
+   :width: 600px
