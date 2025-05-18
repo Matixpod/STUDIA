@@ -11,14 +11,10 @@ Add your content using ``reStructuredText`` syntax. See the
 documentation for details.
 
 
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    modules
-
-
-.. image:: _static/zrzut_index.png
-   :alt: Zrzut ekranu index.html
-   :align: center
-   :width: 600px
+   README
