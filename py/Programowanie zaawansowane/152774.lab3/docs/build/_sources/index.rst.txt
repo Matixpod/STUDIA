@@ -16,3 +16,9 @@ documentation for details.
    :caption: Contents:
 
    modules
+
+
+.. image:: _static/zrzut_index.png
+   :alt: Zrzut ekranu index.html
+   :align: center
+   :width: 600px
