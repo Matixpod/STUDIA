@@ -1,0 +1,10 @@
+Requirement already satisfied: typing-extensions in c:\users\mateu\appdata\local\programs\python\python311\lib\site-packages (4.5.0)
+Collecting typing-extensions
+  Using cached typing_extensions-4.13.2-py3-none-any.whl.metadata (3.0 kB)
+Using cached typing_extensions-4.13.2-py3-none-any.whl (45 kB)
+Installing collected packages: typing-extensions
+  Attempting uninstall: typing-extensions
+    Found existing installation: typing_extensions 4.5.0
+    Uninstalling typing_extensions-4.5.0:
+      Successfully uninstalled typing_extensions-4.5.0
+Successfully installed typing-extensions-4.13.2
