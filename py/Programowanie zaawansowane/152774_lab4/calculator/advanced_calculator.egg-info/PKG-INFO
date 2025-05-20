@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: advanced_calculator
+Version: 0.1.0
+Summary: Zaawansowany kalkulator z wykorzystaniem wzorców projektowych
+Author: Mateusz Podporski
+Author-email: Mateusz Podporski <mateuszpodporski@wsb.pl>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# Kalkulator klasowy
+Kalkulator wykonuje proste operacje matematyczne takie jak:
+- dodawanie
+- odejmowanie 
+- mnożenie
+- dzielenie
+
+```python
+def add(self, a, b):
+        self.result = a + b
+        return self.result
+```
+[Python Documentation](docs.python.org)
+
+![Static Badge](https://img.shields.io/badge/python%203.13.2%20-%20green) ![Static Badge](https://img.shields.io/badge/%20Doctest-%20blue)
+
+
