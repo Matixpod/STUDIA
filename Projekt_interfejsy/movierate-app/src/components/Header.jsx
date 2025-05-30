@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Search } from 'lucide-react'
+import Settings from './Settings'
 
 const Header = () => {
   const location = useLocation()
@@ -31,6 +32,7 @@ const Header = () => {
         </nav>
         
         <div className="header-actions">
+          <Settings />
           <button className="btn-signin">Sign In</button>
           <button className="btn-start">Start Free</button>
         </div>
