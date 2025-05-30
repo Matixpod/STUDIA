@@ -27,8 +27,18 @@ const Header = () => {
           >
             Movies
           </Link>
-          <a href="#" className="nav-link">Leave Review</a>
-          <a href="#" className="nav-link">Order Review</a>
+          <Link 
+            to="/review-marketplace" 
+            className={`nav-link ${location.pathname === '/review-marketplace' ? 'active' : ''}`}
+            >
+            Leave Review
+          </Link>
+          <Link 
+            to="/order-review" 
+            className={`nav-link ${location.pathname === '/order-review' ? 'active' : ''}`}
+            >
+            Order Review
+          </Link>
         </nav>
         
         <div className="header-actions">
