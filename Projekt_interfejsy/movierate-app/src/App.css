@@ -518,6 +518,21 @@ body {
   color: #999;
 }
 
+/* Dodaj do sekcji TV Shows */
+.tv-show-genre {
+  font-size: 11px;
+  color: #999;
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tv-show-episode-time {
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
+}
+
 /* Dodaj to do sekcji Header Styles */
 .logo-text {
   font-size: 24px;
@@ -664,6 +679,13 @@ body {
   text-decoration: none;
 }
 
+.movie-genre {
+  font-size: 11px;
+  color: #999;
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 /* Dodaj do sekcji Header Styles */
 .nav-link.active {
   color: #ff6b35;
